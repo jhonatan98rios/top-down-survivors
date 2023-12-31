@@ -3,7 +3,15 @@ import { Player } from "../models/Player"
 
 export class PlayerEventService {
 
-    constructor(private eventHandler: EventHandler, private player: Player) {}
+    private static instance: PlayerEventService;
+
+    eventHandler: EventHandler
+    player: Player
+
+    constructor() {
+        this.eventHandler = EventHandler.getInstance()
+        this.player = Player.getInstance()
+    }
 
     execute() {
         
@@ -16,4 +24,14 @@ export class PlayerEventService {
              })
         }
     }
+
+
+    public static getInstance(): PlayerEventService {
+        if (!PlayerEventService.instance) {
+            PlayerEventService.instance = new PlayerEventService()
+        }
+    
+        return PlayerEventService.instance
+    }
+      
 }

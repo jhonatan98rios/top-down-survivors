@@ -3,40 +3,42 @@ import { Scenario } from "./Scenario";
 import { Player } from "./Player";
 import { Game } from "./Game";
 import { Element } from "../../database/scenarios/mock";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
+import { EnemyService } from "../services/EnemyService";
+import { Enemy } from "./Enemy";
 
-interface ICanvas {
-    context: CanvasRenderingContext2D
-    scenario: Scenario
-    width: number
-    height: number
-    camera: Camera
-    playerSpritesheet: HTMLImageElement
-    player: Player
-}
+
 
 export class Canvas {
+
+    private static instance: Canvas;
+    
+    htmlCanvas: HTMLCanvasElement
     context: CanvasRenderingContext2D;
     scenario: Scenario
     width: number
     height: number
     camera: Camera
     player: Player
-    playerSpritesheet: HTMLImageElement
     game?: Game
+    enemyService: EnemyService
     
 
-    constructor({ context, scenario, width, height, camera, player, playerSpritesheet }: ICanvas) {
-        this.context = context
-        this.scenario = scenario
-        this.width = width, 
-        this.height = height
-        this.camera = camera
-        this.player = player
-        this.playerSpritesheet = playerSpritesheet
+    constructor() {
+        this.htmlCanvas = document.querySelector("canvas") as HTMLCanvasElement
+        this.htmlCanvas.width = SCREEN_WIDTH
+        this.htmlCanvas.height = SCREEN_HEIGHT
+        
+        this.context = this.htmlCanvas.getContext("2d") as CanvasRenderingContext2D
+        this.scenario = Scenario.getInstance()
+        this.camera = Camera.getInstance()
+        this.player = Player.getInstance()
+        this.enemyService = EnemyService.getInstance()
+        this.width = SCREEN_WIDTH, 
+        this.height = SCREEN_HEIGHT
     }
 
     render(){
-        
         this.clearCanvas()
         this.moveCamera()
 
@@ -46,6 +48,7 @@ export class Canvas {
 
         if (this.game) {
             this.renderPlayer(this.player)
+            this.renderEnemies(this.enemyService.enemies)
         }
 
         this.scenario.layers.aboveThePlayers.forEach(element => {
@@ -72,7 +75,7 @@ export class Canvas {
 
     private renderPlayer(player: Player) {
         this.context.drawImage(
-            this.playerSpritesheet,
+            player.spritesheet,
             player.srcX, 
             player.srcY, 
             player.width, 
@@ -82,5 +85,30 @@ export class Canvas {
             player.width, 
             player.height
         );
+    }
+
+    private renderEnemies(enemies: Enemy[]) {
+        enemies.forEach(enemy => {
+            this.context.drawImage(
+                enemy.spritesheet,
+                enemy.srcX, 
+                enemy.srcY, 
+                enemy.width, 
+                enemy.height,
+                enemy.x, 
+                enemy.y, 
+                enemy.width, 
+                enemy.height
+            );
+        })
+
+    }
+
+    public static getInstance(): Canvas {
+        if (!Canvas.instance) {
+            Canvas.instance = new Canvas();
+        }
+
+        return Canvas.instance;
     }
 }

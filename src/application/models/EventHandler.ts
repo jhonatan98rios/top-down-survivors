@@ -6,6 +6,8 @@ const DOWN = 'ArrowDown'
 
 export class EventHandler {
 
+  private static instance: EventHandler;
+
   mvLeft: boolean
   mvUp: boolean
   mvRight: boolean
@@ -62,4 +64,13 @@ export class EventHandler {
         break;
     }
   }
+
+
+  public static getInstance(): EventHandler {
+    if (!EventHandler.instance) {
+      EventHandler.instance = new EventHandler();
+    }
+
+    return EventHandler.instance;
+  } 
 }

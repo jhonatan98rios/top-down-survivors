@@ -15,7 +15,6 @@ interface IEnemy {
     srcX: number,
     srcY: number,
     direction: DIRECTION
-    scenario: Scenario
 }
 
 type Direction = { mvLeft?: boolean, mvUp?: boolean, mvRight?: boolean, mvDown?: boolean }
@@ -33,8 +32,9 @@ export class Enemy {
     countAnim: number
     scenario: Scenario
     game?: Game
+    spritesheet: HTMLImageElement
 
-    constructor({ x, y, width, height, speed, srcX, srcY, direction, scenario }: IEnemy) {
+    constructor({ x, y, width, height, speed, srcX, srcY, direction }: IEnemy) {
         this.x = x
         this.y = y
         this.width = width
@@ -43,8 +43,11 @@ export class Enemy {
         this.srcX = srcX
         this.srcY = srcY
         this.direction = direction
-        this.scenario = scenario
+        this.scenario = Scenario.getInstance()
         this.countAnim = 0
+
+        this.spritesheet = new Image()
+        this.spritesheet.src = "img/players/standard/spritesheet.png"
     }
 
     move({ mvLeft, mvUp, mvRight, mvDown }: Direction) {

@@ -4,33 +4,31 @@ import { EventHandler } from "./EventHandler"
 import { Scenario } from "./Scenario"
 import { Player } from "./Player"
 import { PlayerEventService } from "../services/PlayerEventService"
-
-interface IGame {
-    player: Player
-    canvas: Canvas
-    scenario: Scenario
-    eventHandler: EventHandler
-    camera: Camera
-    playerEventService: PlayerEventService
-}
+import { EnemyService } from "../services/EnemyService"
 
 export class Game {
+
+    private static instance: Game;
+    
     player: Player
     canvas: Canvas
     scenario: Scenario
     eventHandler: EventHandler
     camera: Camera
     playerEventService: PlayerEventService
+    enemyService: EnemyService
 
     // fps: number
 
-    constructor({ player, canvas, scenario, eventHandler, camera, playerEventService }: IGame) {
-        this.player = player
-        this.canvas = canvas
-        this.scenario = scenario
-        this.eventHandler = eventHandler
-        this.camera = camera
-        this.playerEventService = playerEventService
+    constructor() {
+        this.player = Player.getInstance()
+        this.canvas = Canvas.getInstance()
+        this.scenario = Scenario.getInstance()
+        this.eventHandler = EventHandler.getInstance()
+        this.camera = Camera.getInstance()
+
+        this.playerEventService = PlayerEventService.getInstance(),
+        this.enemyService = EnemyService.getInstance()
 
         this.canvas.game = this
         this.player.game = this
@@ -49,6 +47,8 @@ export class Game {
             mvRight: this.eventHandler.mvRight,
             mvUp: this.eventHandler.mvUp
          })
+
+        this.enemyService.move()
         
         this.moveCamera()
     }
@@ -77,5 +77,14 @@ export class Game {
         // this.fps += 1
 
         requestAnimationFrame(this.loop.bind(this))
+    }
+
+
+    public static getInstance(): Game {
+        if (!Game.instance) {
+            Game.instance = new Game();
+        }
+
+        return Game.instance;
     }
 }

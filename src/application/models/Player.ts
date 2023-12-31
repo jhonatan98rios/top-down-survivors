@@ -1,3 +1,4 @@
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
 import { Game } from "./Game";
 import { Scenario } from "./Scenario";
 
@@ -6,22 +7,13 @@ export enum DIRECTION {
     RIGHT = 1,
 }
 
-interface IPlayer {
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    speed: number,
-    srcX: number,
-    srcY: number,
-    direction: DIRECTION
-    scenario: Scenario
-}
 
 type Direction = { mvLeft?: boolean, mvUp?: boolean, mvRight?: boolean, mvDown?: boolean }
 
 export class Player {
-    id?: string
+
+    private static instance: Player;
+
     x: number
     y: number
     width: number
@@ -33,18 +25,25 @@ export class Player {
     countAnim: number
     scenario: Scenario
     game?: Game
+    spritesheet: HTMLImageElement
 
-    constructor({ x, y, width, height, speed, srcX, srcY, direction, scenario }: IPlayer) {
-        this.x = x
-        this.y = y
-        this.width = width
-        this.height = height
-        this.speed = speed
-        this.srcX = srcX
-        this.srcY = srcY
-        this.direction = direction
-        this.scenario = scenario
+    constructor() {
+        this.x = SCREEN_WIDTH / 2
+        this.y = SCREEN_HEIGHT / 2
+        this.width = 200 / 4
+        this.height = 400 / 4
+        this.speed = 2
+        this.srcX = 0
+        this.srcY = 100
+        this.direction = DIRECTION.RIGHT
+        this.scenario = Scenario.getInstance()
         this.countAnim = 0
+        this.spritesheet = new Image()
+        this.spritesheet.src = "img/players/standard/spritesheet.png"
+
+        this.spritesheet.addEventListener("load", () => {
+            requestAnimationFrame(this.game?.loop.bind(this.game)!);
+        }, false);
     }
 
     move({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
@@ -58,7 +57,6 @@ export class Player {
         const TEMP_SPEED = ((mvLeft || mvRight) && (mvDown || mvUp)) 
             ? this.speed / 1.5
             : this.speed
-       
 
         if (mvLeft && !mvRight) {
             this.x = this.x - TEMP_SPEED
@@ -111,5 +109,14 @@ export class Player {
         }
 
         this.srcX = SELECTED_FRAME * this.width;
+    }
+
+
+    public static getInstance(): Player {
+        if (!Player.instance) {
+            Player.instance = new Player();
+        }
+
+        return Player.instance;
     }
 }
