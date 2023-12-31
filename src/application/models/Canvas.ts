@@ -47,8 +47,9 @@ export class Canvas {
         })
 
         if (this.game) {
+            this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y <= this.player.y))
             this.renderPlayer(this.player)
-            this.renderEnemies(this.enemyService.enemies)
+            this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y > this.player.y))
         }
 
         this.scenario.layers.aboveThePlayers.forEach(element => {

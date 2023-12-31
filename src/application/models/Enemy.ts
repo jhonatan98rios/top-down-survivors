@@ -15,6 +15,7 @@ interface IEnemy {
     srcX: number,
     srcY: number,
     direction: DIRECTION
+    spritesheetSrc: string
 }
 
 type Direction = { mvLeft?: boolean, mvUp?: boolean, mvRight?: boolean, mvDown?: boolean }
@@ -34,7 +35,7 @@ export class Enemy {
     game?: Game
     spritesheet: HTMLImageElement
 
-    constructor({ x, y, width, height, speed, srcX, srcY, direction }: IEnemy) {
+    constructor({ x, y, width, height, speed, srcX, srcY, direction, spritesheetSrc }: IEnemy) {
         this.x = x
         this.y = y
         this.width = width
@@ -47,7 +48,7 @@ export class Enemy {
         this.countAnim = 0
 
         this.spritesheet = new Image()
-        this.spritesheet.src = "img/players/standard/spritesheet.png"
+        this.spritesheet.src = spritesheetSrc
     }
 
     move({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
@@ -85,25 +86,19 @@ export class Enemy {
 
         } else if (mvRight && !mvLeft) {
             this.direction = DIRECTION.RIGHT
-            this.srcY = this.height * 3
+            this.srcY = 0
         }
 
         if (mvUp || mvDown) {
             this.srcY = this.direction == DIRECTION.RIGHT 
-                ? this.height * 3
+                ? 0
                 : this.height
-        }
-
-        if (!(mvUp || mvDown || mvLeft || mvRight)) {
-            this.srcY = this.direction == DIRECTION.RIGHT 
-            ? this.height * 2
-            : 0
-        }        
+        }     
     }
 
     private spriteAnimation() {
         const FRAMES_AMOUNT = 4
-        const ANIMATION_SPEED = 1
+        const ANIMATION_SPEED = 0.5
         const TIME_TO_RESTART = 60 * ANIMATION_SPEED
         const SELECTED_FRAME = Math.floor(this.countAnim / (TIME_TO_RESTART / FRAMES_AMOUNT))
         
