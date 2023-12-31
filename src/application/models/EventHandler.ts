@@ -24,15 +24,19 @@ export class EventHandler {
   keydownHandler(e: KeyboardEvent) {
     switch (e.key) {
       case LEFT:
+      case 'a':
         this.mvLeft = true;
         break;
       case UP:
+      case 'w':
         this.mvUp = true;
         break;
       case RIGHT:
+      case 'd':
         this.mvRight = true;
         break;
       case DOWN:
+      case 's':
         this.mvDown = true;
         break;
     }
@@ -41,15 +45,19 @@ export class EventHandler {
   keyupHandler(e: KeyboardEvent) {
     switch (e.key) {
       case LEFT:
+      case 'a':
         this.mvLeft = false;
         break;
       case UP:
+      case 'w':
         this.mvUp = false;
         break;
       case RIGHT:
+      case 'd':
         this.mvRight = false;
         break;
       case DOWN:
+      case 's':
         this.mvDown = false;
         break;
     }

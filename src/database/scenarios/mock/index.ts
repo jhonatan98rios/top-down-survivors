@@ -16,14 +16,18 @@ const CanvasImage = (src: string ) => {
     return img
 }
 
+
+const WIDTH = 2064 * 1024
+const HEIGHT = 1152 * 1024
+
 export const layers: ScenarioLayers = {
     belowThePlayers: [
         {
-            image: CanvasImage("img/layers/floor.png"),
-            width: 2064,
-            height: 1152,
-            x: 0,
-            y: 0
+            image: CanvasImage("img/stages/pattern.png"),
+            width: WIDTH,
+            height: HEIGHT,
+            x: -(WIDTH / 2),
+            y: -(HEIGHT / 2)
         },
     ],
 

@@ -6,7 +6,7 @@ export enum DIRECTION {
     RIGHT = 1,
 }
 
-interface IPlayer {
+interface IEnemy {
     x: number,
     y: number,
     width: number,
@@ -20,7 +20,7 @@ interface IPlayer {
 
 type Direction = { mvLeft?: boolean, mvUp?: boolean, mvRight?: boolean, mvDown?: boolean }
 
-export class Player {
+export class Enemy {
     id?: string
     x: number
     y: number
@@ -34,7 +34,7 @@ export class Player {
     scenario: Scenario
     game?: Game
 
-    constructor({ x, y, width, height, speed, srcX, srcY, direction, scenario }: IPlayer) {
+    constructor({ x, y, width, height, speed, srcX, srcY, direction, scenario }: IEnemy) {
         this.x = x
         this.y = y
         this.width = width

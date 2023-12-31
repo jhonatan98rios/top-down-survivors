@@ -65,13 +65,9 @@ export class Canvas {
     }
 
     private renderElement(element: Element) {
-        this.context.drawImage(
-            element.image as CanvasImageSource,
-            element.x,
-            element.y,
-            element.width,
-            element.height
-        )
+        const ptrn = this.context.createPattern(element.image, 'repeat') // Create a pattern with this image, and set it to "repeat".
+        this.context.fillStyle = ptrn!
+        this.context.fillRect(element.x, element.y, element.width, element.height);
     }
 
     private renderPlayer(player: Player) {
