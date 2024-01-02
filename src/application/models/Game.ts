@@ -5,6 +5,7 @@ import { Scenario } from "./Scenario"
 import { Player } from "./Player"
 import { PlayerEventService } from "../services/PlayerEventService"
 import { EnemyService } from "../services/EnemyService"
+import { SkillService } from "../services/SkillService"
 
 export class Game {
 
@@ -18,6 +19,8 @@ export class Game {
     playerEventService: PlayerEventService
     enemyService: EnemyService
 
+    skillService: SkillService
+
     // fps: number
 
     constructor() {
@@ -30,6 +33,8 @@ export class Game {
         this.playerEventService = PlayerEventService.getInstance(),
         this.enemyService = EnemyService.getInstance()
 
+        this.skillService = SkillService.getInstance()
+
         this.canvas.game = this
         this.player.game = this
 
@@ -41,14 +46,10 @@ export class Game {
     }
 
     update(){
-        this.player.move({ 
-            mvDown: this.eventHandler.mvDown,
-            mvLeft: this.eventHandler.mvLeft,
-            mvRight: this.eventHandler.mvRight,
-            mvUp: this.eventHandler.mvUp
-         })
+        this.playerEventService.execute()
 
         this.enemyService.move()
+        this.skillService.move()
         
         this.moveCamera()
     }
@@ -70,8 +71,6 @@ export class Game {
 
     loop(){
         this.update()
-        this.playerEventService.execute()
-
         this.canvas.render()
 
         // this.fps += 1

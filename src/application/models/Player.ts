@@ -32,7 +32,7 @@ export class Player {
         this.y = SCREEN_HEIGHT / 2
         this.width = 200 / 4
         this.height = 400 / 4
-        this.speed = 2
+        this.speed = 3
         this.srcX = 0
         this.srcY = 100
         this.direction = DIRECTION.RIGHT
@@ -55,7 +55,7 @@ export class Player {
     private positionAnimation({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
 
         const TEMP_SPEED = ((mvLeft || mvRight) && (mvDown || mvUp)) 
-            ? this.speed / 1.5
+            ? this.speed / 1.4
             : this.speed
 
         if (mvLeft && !mvRight) {

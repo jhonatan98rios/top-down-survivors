@@ -60,7 +60,7 @@ export class Enemy {
     private positionAnimation({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
 
         const TEMP_SPEED = ((mvLeft || mvRight) && (mvDown || mvUp)) 
-            ? this.speed / 1.5
+            ? this.speed / 2.5
             : this.speed
        
 

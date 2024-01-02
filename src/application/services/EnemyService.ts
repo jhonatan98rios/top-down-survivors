@@ -1,5 +1,5 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
-import { DIRECTION, Enemy } from "../models/Enemy"
+import { Enemy } from "../models/Enemy"
 import { Player } from "../models/Player";
 import { EnemyFactory } from "./EnemyFactory";
 
@@ -31,7 +31,7 @@ export class EnemyService {
 
         this.enemies.push(EnemyFactory.randomCreate(randomPos))
 
-        setTimeout(this.spawn.bind(this), 100)
+        //setTimeout(this.spawn.bind(this), 100)
     }
 
 

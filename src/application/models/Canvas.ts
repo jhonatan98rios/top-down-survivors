@@ -6,6 +6,7 @@ import { Element } from "../../database/scenarios/mock";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
 import { EnemyService } from "../services/EnemyService";
 import { Enemy } from "./Enemy";
+import { AbstractSkill } from "./skills/AbstractSkill";
 
 
 
@@ -50,6 +51,8 @@ export class Canvas {
             this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y <= this.player.y))
             this.renderPlayer(this.player)
             this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y > this.player.y))
+
+            this.renderSkills(this.game.skillService.activeSkills)
         }
 
         this.scenario.layers.aboveThePlayers.forEach(element => {
@@ -102,7 +105,22 @@ export class Canvas {
                 enemy.height
             );
         })
+    }
 
+    private renderSkills(activeSkills: AbstractSkill[]) {
+        activeSkills.forEach(activeSkill => {
+            this.context.drawImage(
+                activeSkill.spritesheet,
+                activeSkill.srcX, 
+                activeSkill.srcY, 
+                activeSkill.width, 
+                activeSkill.height,
+                activeSkill.posX, 
+                activeSkill.posY, 
+                activeSkill.width, 
+                activeSkill.height
+            );
+        })
     }
 
     public static getInstance(): Canvas {

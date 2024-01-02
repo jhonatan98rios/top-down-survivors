@@ -14,15 +14,12 @@ export class PlayerEventService {
     }
 
     execute() {
-        
-        if (this.eventHandler.mvUp || this.eventHandler.mvDown || this.eventHandler.mvLeft || this.eventHandler.mvRight) {
-            this.player.move({ 
-                mvDown: this.eventHandler.mvDown,
-                mvLeft: this.eventHandler.mvLeft,
-                mvRight: this.eventHandler.mvRight,
-                mvUp: this.eventHandler.mvUp
-             })
-        }
+        this.player.move({ 
+            mvDown: this.eventHandler.mvDown,
+            mvLeft: this.eventHandler.mvLeft,
+            mvRight: this.eventHandler.mvRight,
+            mvUp: this.eventHandler.mvUp
+         })
     }
 
 
