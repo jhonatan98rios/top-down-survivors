@@ -12,7 +12,8 @@ export abstract class AbstractSkill {
     abstract spritesheet: HTMLImageElement
     abstract speed: number
 
-    abstract move({ enemies }: { enemies: Enemy[] }): void
+    abstract move(): void
+    abstract checkCollision(enemies: Enemy[], callback: Function): void
     abstract animate(): void
     abstract effect(): void
 }

@@ -45,7 +45,7 @@ export class SoundAttackLevel_1 implements AbstractSkill {
         this.spritesheet.src = "img/skills/sound_attack_level_1.png"
     }
 
-    move({ enemies }: { enemies: Enemy[] }) {
+    move() {
         const deltaX = this.targetX - this.initialX
         const deltaY = this.targetY - this.initialY
 
@@ -61,6 +61,15 @@ export class SoundAttackLevel_1 implements AbstractSkill {
 
     animate() {
         throw new Error("Method not implemented.");
+    }
+
+    checkCollision(enemies: Enemy[], callback: Function) {
+        enemies.forEach((enemy, index) => {
+            if ((this.posX <= enemy.x + enemy.width) && (this.posX + this.width >= enemy.x) && (this.posY <= enemy.y + enemy.height && this.posY + this.height >= enemy.y)) {
+                enemies.splice(index, 1)
+                callback()
+            }
+        })
     }
     
     effect() {

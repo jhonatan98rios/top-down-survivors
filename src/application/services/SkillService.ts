@@ -57,10 +57,12 @@ export class SkillService {
     }
 
     move() {
-        this.activeSkills.forEach(activeSkill => {
-            activeSkill.move({
-
-                enemies: this.enemyService.enemies
+        this.activeSkills.forEach(activeSkill => activeSkill.move())
+        this.activeSkills.forEach((activeSkill, index) => {
+            activeSkill.checkCollision(
+                this.enemyService.enemies,
+                // Remove the skill after collision
+                () => { this.activeSkills.splice(index, 1) 
             })
         })
     }
