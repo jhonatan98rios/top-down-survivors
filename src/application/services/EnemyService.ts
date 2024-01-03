@@ -18,8 +18,8 @@ export class EnemyService {
 
     spawn() {
         this.sortEnemies()
-        setTimeout(this.spawn.bind(this), 10)
-        if (this.enemies.length > 20) return
+        setTimeout(this.spawn.bind(this), 50)
+        if (this.enemies.length > 500) return
 
         const randomDistance = {
             x: Math.floor(Math.random() * 200) + SCREEN_WIDTH,
@@ -32,7 +32,6 @@ export class EnemyService {
         }
         
         this.enemies.push(EnemyFactory.randomCreate(randomPos))
-        
     }
 
 
@@ -44,8 +43,6 @@ export class EnemyService {
                 mvUp: this.player.y < enemy.y,
                 mvDown: this.player.y > enemy.y,
             })
-
-            //console.log(enemy)
         })
     }
 

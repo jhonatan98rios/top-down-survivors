@@ -1,3 +1,5 @@
+import JoyStick, { StickStatus } from 'html5-joystick-new'
+
 const LEFT = 'ArrowLeft'
 const UP = 'ArrowUp'
 const RIGHT = 'ArrowRight'
@@ -12,15 +14,18 @@ export class EventHandler {
   mvUp: boolean
   mvRight: boolean
   mvDown: boolean
+  joystick?: JoyStick
 
   constructor() {
     window.addEventListener("keydown", this.keydownHandler.bind(this), false);
     window.addEventListener("keyup", this.keyupHandler.bind(this), false);
-
+    
     this.mvLeft = false
     this.mvUp = false
     this.mvRight = false
     this.mvDown = false
+
+    this.joystickEventListener()
   }
 
   keydownHandler(e: KeyboardEvent) {
@@ -63,6 +68,16 @@ export class EventHandler {
         this.mvDown = false;
         break;
     }
+  }
+
+
+  joystickEventListener() {
+    this.joystick = new JoyStick(document.getElementById("joyDiv")!, { callback: (stickData: StickStatus) => {
+      this.mvUp = stickData.cardinalDirection.includes("N");
+      this.mvDown = stickData.cardinalDirection.includes("S");
+      this.mvRight = stickData.cardinalDirection.includes("E");
+      this.mvLeft = stickData.cardinalDirection.includes("W");
+    }});
   }
 
 

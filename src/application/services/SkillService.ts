@@ -15,7 +15,7 @@ export class SkillService {
         this.player = Player.getInstance()
         this.enemyService = EnemyService.getInstance()
 
-        setTimeout(this.spawn.bind(this), 1000)
+        setTimeout(this.spawn.bind(this), 500)
     }
 
     public static getInstance(): SkillService {
