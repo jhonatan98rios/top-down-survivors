@@ -17,7 +17,9 @@ export class EnemyService {
     }
 
     spawn() {
-        //if (this.enemies.length > 50) return
+        this.sortEnemies()
+        setTimeout(this.spawn.bind(this), 10)
+        if (this.enemies.length > 20) return
 
         const randomDistance = {
             x: Math.floor(Math.random() * 200) + SCREEN_WIDTH,
@@ -28,10 +30,9 @@ export class EnemyService {
             x: randomDistance.x % 2 ? this.player.x - randomDistance.x : this.player.x + randomDistance.x,
             y: randomDistance.y % 2 ? this.player.y - randomDistance.y : this.player.y + randomDistance.y,
         }
-
+        
         this.enemies.push(EnemyFactory.randomCreate(randomPos))
-
-        //setTimeout(this.spawn.bind(this), 100)
+        
     }
 
 
@@ -46,6 +47,15 @@ export class EnemyService {
 
             //console.log(enemy)
         })
+    }
+
+
+    sortEnemies() {
+        this.enemies.sort((a, b) => {
+            const distanceToA = Math.sqrt(Math.pow(this.player.x - a.x, 2) + Math.pow(this.player.y - a.y, 2));
+            const distanceToB = Math.sqrt(Math.pow(this.player.x - b.x, 2) + Math.pow(this.player.y - b.y, 2));
+            return distanceToA - distanceToB;
+        });
     }
 
 
