@@ -1,5 +1,5 @@
+import { UUID, generateUUID } from "../../utils/utils";
 import { Enemy } from "../Enemy";
-import { Player } from "../Player";
 import { AbstractSkill } from "./AbstractSkill";
 
 interface ISoundAttackLevel_1 {
@@ -11,6 +11,7 @@ interface ISoundAttackLevel_1 {
 
 export class SoundAttackLevel_1 implements AbstractSkill {
 
+    id: UUID
     width: number
     height: number
     initialX: number
@@ -27,6 +28,8 @@ export class SoundAttackLevel_1 implements AbstractSkill {
     speed: number
     
     constructor({ initialX, initialY, targetX, targetY }: ISoundAttackLevel_1) {
+
+        this.id = generateUUID()
         this.posX = initialX
         this.posY = initialY
         this.initialX = initialX
@@ -63,13 +66,15 @@ export class SoundAttackLevel_1 implements AbstractSkill {
         throw new Error("Method not implemented.");
     }
 
-    checkCollision(enemies: Enemy[], callback: Function) {
-        enemies.forEach((enemy, index) => {
+    checkCollision(enemies: Enemy[], callback: (skillId: string, enemy: Enemy) => void) {
+
+        for (let index = 0; index < enemies.length; index++) {
+            let enemy = enemies[index]
+
             if ((this.posX <= enemy.x + enemy.width) && (this.posX + this.width >= enemy.x) && (this.posY <= enemy.y + enemy.height && this.posY + this.height >= enemy.y)) {
-                enemies.splice(index, 1)
-                callback()
+                return callback(this.id, enemy)
             }
-        })
+        }
     }
     
     effect() {

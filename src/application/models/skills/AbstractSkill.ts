@@ -2,6 +2,7 @@ import { Enemy } from "../Enemy";
 
 export abstract class AbstractSkill {
 
+    abstract id: string
     abstract width: number
     abstract height: number
     abstract posX: number

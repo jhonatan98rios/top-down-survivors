@@ -6,6 +6,7 @@ import { Player } from "./Player"
 import { PlayerEventService } from "../services/PlayerEventService"
 import { EnemyService } from "../services/EnemyService"
 import { SkillService } from "../services/SkillService"
+import { OrbService } from "../services/OrbService"
 
 export class Game {
 
@@ -16,10 +17,11 @@ export class Game {
     scenario: Scenario
     eventHandler: EventHandler
     camera: Camera
+
     playerEventService: PlayerEventService
     enemyService: EnemyService
-
     skillService: SkillService
+    orbService: OrbService
 
     // fps: number
 
@@ -32,8 +34,8 @@ export class Game {
 
         this.playerEventService = PlayerEventService.getInstance(),
         this.enemyService = EnemyService.getInstance()
-
         this.skillService = SkillService.getInstance()
+        this.orbService = OrbService.getInstance()
 
         this.canvas.game = this
         this.player.game = this
@@ -50,6 +52,7 @@ export class Game {
 
         this.enemyService.move()
         this.skillService.move()
+        this.skillService.checkCollision()
         
         this.moveCamera()
     }

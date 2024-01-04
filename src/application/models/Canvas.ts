@@ -7,6 +7,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
 import { EnemyService } from "../services/EnemyService";
 import { Enemy } from "./Enemy";
 import { AbstractSkill } from "./skills/AbstractSkill";
+import { XPOrb } from "./XPOrb";
 
 
 
@@ -53,6 +54,7 @@ export class Canvas {
             this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y > this.player.y))
 
             this.renderSkills(this.game.skillService.activeSkills)
+            this.renderOrbs(this.game.orbService.xpObs)
         }
 
         this.scenario.layers.aboveThePlayers.forEach(element => {
@@ -121,6 +123,19 @@ export class Canvas {
                 activeSkill.height
             );
         })
+    }
+
+    private renderOrbs(orbs: XPOrb[]) {
+
+        this.context.beginPath();
+        
+        orbs.forEach(orb => {
+            //this.context.rect(orb.x, orb.y, orb.width, orb.height)
+            this.context.fillStyle = orb.color;
+            this.context.fillRect(orb.x, orb.y,  orb.width, orb.height);
+        })
+
+        
     }
 
     public static getInstance(): Canvas {

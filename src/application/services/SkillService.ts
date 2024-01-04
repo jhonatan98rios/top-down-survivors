@@ -1,3 +1,4 @@
+import { Enemy } from "../models/Enemy";
 import { Player } from "../models/Player";
 import { AbstractSkill } from "../models/skills/AbstractSkill";
 import { SoundAttackLevel_1 } from "../models/skills/SoundAttackLevel_1";
@@ -58,12 +59,28 @@ export class SkillService {
 
     move() {
         this.activeSkills.forEach(activeSkill => activeSkill.move())
-        this.activeSkills.forEach((activeSkill, index) => {
-            activeSkill.checkCollision(
-                this.enemyService.enemies,
-                // Remove the skill after collision
-                () => { this.activeSkills.splice(index, 1) 
-            })
-        })
+    }
+    
+    checkCollision() {
+        for (let index = 0; index <= this.activeSkills.length; index++) {
+            let activeSkill = this.activeSkills[index]
+
+            if (activeSkill) {
+                activeSkill.checkCollision(
+                    this.enemyService.enemies,
+                    this.collision.bind(this)
+                )
+            }
+        }
+    }
+
+    collision(skillId: string, enemy: Enemy) {
+        //console.log(skillId, enemy.id)
+        this.remove(skillId)
+        this.enemyService.remove(enemy)
+    }
+
+    remove(id: string) {
+        this.activeSkills = this.activeSkills.filter(skill => skill.id != id)
     }
 }

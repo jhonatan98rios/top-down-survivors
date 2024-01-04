@@ -1,4 +1,4 @@
-import { Game } from "./Game";
+import { UUID, generateUUID } from "../utils/utils";
 import { Scenario } from "./Scenario";
 
 export enum DIRECTION {
@@ -21,7 +21,7 @@ interface IEnemy {
 type Direction = { mvLeft?: boolean, mvUp?: boolean, mvRight?: boolean, mvDown?: boolean }
 
 export class Enemy {
-    id?: string
+    id: UUID
     x: number
     y: number
     width: number
@@ -32,10 +32,10 @@ export class Enemy {
     direction: DIRECTION
     countAnim: number
     scenario: Scenario
-    game?: Game
     spritesheet: HTMLImageElement
 
     constructor({ x, y, width, height, speed, srcX, srcY, direction, spritesheetSrc }: IEnemy) {
+        this.id = generateUUID()
         this.x = x
         this.y = y
         this.width = width
@@ -109,5 +109,9 @@ export class Enemy {
         }
 
         this.srcX = SELECTED_FRAME * this.width;
+    }
+
+    public die() {
+        
     }
 }

@@ -2,6 +2,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
 import { Enemy } from "../models/Enemy"
 import { Player } from "../models/Player";
 import { EnemyFactory } from "./EnemyFactory";
+import { OrbService } from "./OrbService";
 
 export class EnemyService {
 
@@ -9,17 +10,21 @@ export class EnemyService {
 
     player: Player
     enemies: Enemy[]
+    orbService: OrbService
 
     constructor() {
         this.player = Player.getInstance()
         this.enemies = []
         this.spawn()
+
+        this.orbService = OrbService.getInstance()
     }
 
     spawn() {
         this.sortEnemies()
-        setTimeout(this.spawn.bind(this), 50)
-        if (this.enemies.length > 500) return
+        setTimeout(this.spawn.bind(this), 200)
+        
+        if (this.enemies.length > 200) return
 
         const randomDistance = {
             x: Math.floor(Math.random() * 200) + SCREEN_WIDTH,
@@ -53,6 +58,16 @@ export class EnemyService {
             const distanceToB = Math.sqrt(Math.pow(this.player.x - b.x, 2) + Math.pow(this.player.y - b.y, 2));
             return distanceToA - distanceToB;
         });
+    }
+
+    remove(enemy: Enemy) {
+        const { id, x, y, height, width } = enemy
+        this.enemies = this.enemies.filter(e => e.id != id)
+        this.orbService.spawnXpOrb({
+            x: x + (width / 2), 
+            y: y + (height / 2)
+        })
+        
     }
 
 
