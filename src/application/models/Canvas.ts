@@ -49,12 +49,13 @@ export class Canvas {
         })
 
         if (this.game) {
+            this.renderOrbs(this.game.orbService.xpObs)
+            
             this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y <= this.player.y))
             this.renderPlayer(this.player)
             this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y > this.player.y))
 
             this.renderSkills(this.game.skillService.activeSkills)
-            this.renderOrbs(this.game.orbService.xpObs)
         }
 
         this.scenario.layers.aboveThePlayers.forEach(element => {

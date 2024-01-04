@@ -15,5 +15,20 @@ export class XPOrb {
         this.width = 5
         this.height = 10
         this.color = "#55AAFF"
+
+        this.animate(true)
+    }
+
+    animate(goingUp: boolean) {
+        if (goingUp) {
+            this.color = "#AACCFF"
+            this.y += 2
+        } else {
+            this.color = "#55AAFF"
+            this.y -= 2
+        }
+
+        setTimeout(() => this.animate(!goingUp), 500)
+        
     }
 }
