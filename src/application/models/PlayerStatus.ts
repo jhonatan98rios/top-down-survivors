@@ -7,8 +7,8 @@ export class PlayerStatus {
     public vulnerable: boolean
 
     constructor () {
-        this.maxHealth = 20
-        this.currentHealth = 20
+        this.maxHealth = 25
+        this.currentHealth = 25
         this.vulnerable = true
     }
 

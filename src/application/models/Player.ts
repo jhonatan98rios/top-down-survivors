@@ -52,7 +52,7 @@ export class Player {
     update({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
         this.move({ mvLeft, mvUp, mvRight, mvDown })
         this.checkCollision(this.game.enemyService.enemies, (enemy: Enemy) => {
-            this.status.takeDamage(3) // enemy.damage
+            this.status.takeDamage(5) // enemy.damage
         })
 
         this.setDirection({ mvLeft, mvUp, mvRight, mvDown })
