@@ -14,14 +14,13 @@ export class PlayerEventService {
     }
 
     execute() {
-        this.player.move({ 
+        this.player.update({ 
             mvDown: this.eventHandler.mvDown,
             mvLeft: this.eventHandler.mvLeft,
             mvRight: this.eventHandler.mvRight,
             mvUp: this.eventHandler.mvUp
          })
     }
-
 
     public static getInstance(): PlayerEventService {
         if (!PlayerEventService.instance) {
@@ -30,5 +29,4 @@ export class PlayerEventService {
     
         return PlayerEventService.instance
     }
-      
 }

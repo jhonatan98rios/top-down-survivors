@@ -29,6 +29,5 @@ export class XPOrb {
         }
 
         setTimeout(() => this.animate(!goingUp), 500)
-        
     }
 }

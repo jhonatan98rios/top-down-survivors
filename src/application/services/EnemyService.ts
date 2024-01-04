@@ -39,7 +39,6 @@ export class EnemyService {
         this.enemies.push(EnemyFactory.randomCreate(randomPos))
     }
 
-
     move() {
         this.enemies.forEach(enemy => {
             enemy.move({
@@ -50,7 +49,6 @@ export class EnemyService {
             })
         })
     }
-
 
     sortEnemies() {
         this.enemies.sort((a, b) => {
@@ -67,9 +65,7 @@ export class EnemyService {
             x: x + (width / 2), 
             y: y + (height / 2)
         })
-        
     }
-
 
     public static getInstance(): EnemyService {
         if (!EnemyService.instance) {
@@ -78,5 +74,4 @@ export class EnemyService {
     
         return EnemyService.instance
     }
-      
 }

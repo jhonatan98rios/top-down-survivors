@@ -1,5 +1,7 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
+import { Enemy } from "./Enemy";
 import { Game } from "./Game";
+import { PlayerStatus } from "./PlayerStatus";
 import { Scenario } from "./Scenario";
 
 export enum DIRECTION {
@@ -7,13 +9,13 @@ export enum DIRECTION {
     RIGHT = 1,
 }
 
-
 type Direction = { mvLeft?: boolean, mvUp?: boolean, mvRight?: boolean, mvDown?: boolean }
 
 export class Player {
 
     private static instance: Player;
 
+    status: PlayerStatus
     x: number
     y: number
     width: number
@@ -28,6 +30,7 @@ export class Player {
     spritesheet: HTMLImageElement
 
     constructor() {
+        this.status = PlayerStatus.getInstance()
         this.x = SCREEN_WIDTH / 2
         this.y = SCREEN_HEIGHT / 2
         this.width = 200 / 4
@@ -46,13 +49,17 @@ export class Player {
         }, false);
     }
 
-    move({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
-        this.positionAnimation({ mvLeft, mvUp, mvRight, mvDown })
+    update({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
+        this.move({ mvLeft, mvUp, mvRight, mvDown })
+        this.checkCollision(this.game.enemyService.enemies, (enemy: Enemy) => {
+            this.status.takeDamage(3) // enemy.damage
+        })
+
         this.setDirection({ mvLeft, mvUp, mvRight, mvDown })
         this.spriteAnimation()
     }
 
-    private positionAnimation({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
+    private move({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
 
         const TEMP_SPEED = ((mvLeft || mvRight) && (mvDown || mvUp)) 
             ? this.speed / 1.4
@@ -111,6 +118,16 @@ export class Player {
         this.srcX = SELECTED_FRAME * this.width;
     }
 
+    public checkCollision(enemies: Enemy[], callback: (enemy: Enemy) => void) {
+
+        for (let index = 0; index < enemies.length; index++) {
+            let enemy = enemies[index]
+
+            if ((this.x <= enemy.x + enemy.width) && (this.x + this.width >= enemy.x) && (this.y <= enemy.y + enemy.height && this.y + this.height >= enemy.y)) {
+                return callback(enemy)
+            }
+        }
+    }
 
     public static getInstance(): Player {
         if (!Player.instance) {

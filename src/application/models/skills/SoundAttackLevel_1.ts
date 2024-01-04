@@ -80,5 +80,4 @@ export class SoundAttackLevel_1 implements AbstractSkill {
     effect() {
         throw new Error("Method not implemented.");
     }
-
 }

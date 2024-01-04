@@ -56,6 +56,8 @@ export class Canvas {
             this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y > this.player.y))
 
             this.renderSkills(this.game.skillService.activeSkills)
+
+            this.renderStatus()
         }
 
         this.scenario.layers.aboveThePlayers.forEach(element => {
@@ -127,15 +129,27 @@ export class Canvas {
     }
 
     private renderOrbs(orbs: XPOrb[]) {
-
         this.context.beginPath();
-        
         orbs.forEach(orb => {
             //this.context.rect(orb.x, orb.y, orb.width, orb.height)
             this.context.fillStyle = orb.color;
             this.context.fillRect(orb.x, orb.y,  orb.width, orb.height);
         })
+    }
 
+    private renderStatus() {
+        const { currentHealth, maxHealth } =  this.player.status
+
+        this.context.beginPath();
+        this.context.fillStyle = currentHealth > maxHealth / 2 
+            ? "#AAFFCC" : "#FFCCAA"
+
+        this.context.fillRect(
+            this.camera.x + 20, 
+            this.camera.y + 20, 
+            (currentHealth / maxHealth) * 200, 
+            20
+        );
         
     }
 

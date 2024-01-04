@@ -28,13 +28,11 @@ export class OrbService {
         });
     }
 
-
     public static getInstance(): OrbService {
         if (!OrbService.instance) {
             OrbService.instance = new OrbService()
         }
     
         return OrbService.instance
-    }
-      
+    } 
 }
