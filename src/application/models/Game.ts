@@ -24,6 +24,7 @@ export class Game {
     orbService: OrbService
 
     fps: number
+    fpsCounter: number
 
     constructor() {
         this.player = Player.getInstance()
@@ -41,9 +42,11 @@ export class Game {
         this.player.game = this
 
         this.fps = 0
+        this.fpsCounter = 0
+        
         setInterval(() => {
-            console.log(this.fps)
-            this.fps = 0
+            this.fps = this.fpsCounter
+            this.fpsCounter = 0
         }, 1000)
     }
 
@@ -76,7 +79,7 @@ export class Game {
         this.update()
         this.canvas.render()
 
-        this.fps += 1
+        this.fpsCounter += 1
 
         requestAnimationFrame(this.loop.bind(this))
     }

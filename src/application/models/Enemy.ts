@@ -1,4 +1,5 @@
-import { UUID, generateUUID } from "../utils/utils";
+import { UUID, calculate2DMovement, generateUUID } from "../utils/utils";
+import { Player } from "./Player";
 import { Scenario } from "./Scenario";
 
 export enum DIRECTION {
@@ -7,21 +8,25 @@ export enum DIRECTION {
 }
 
 interface IEnemy {
-    x: number,
-    y: number,
-    width: number,
-    height: number,
-    speed: number,
-    srcX: number,
-    srcY: number,
+    x: number
+    y: number
+    width: number
+    height: number
+    speed: number
+    srcX: number
+    srcY: number
     direction: DIRECTION
     spritesheetSrc: string
+    health: number
+    damage: number
 }
 
 type Direction = { mvLeft?: boolean, mvUp?: boolean, mvRight?: boolean, mvDown?: boolean }
 
 export class Enemy {
     id: UUID
+    health: number
+    damage: number
     x: number
     y: number
     width: number
@@ -34,8 +39,10 @@ export class Enemy {
     scenario: Scenario
     spritesheet: HTMLImageElement
 
-    constructor({ x, y, width, height, speed, srcX, srcY, direction, spritesheetSrc }: IEnemy) {
+    constructor({ health, damage, x, y, width, height, speed, srcX, srcY, direction, spritesheetSrc }: IEnemy) {
         this.id = generateUUID()
+        this.health = health
+        this.damage = damage
         this.x = x
         this.y = y
         this.width = width
@@ -50,34 +57,28 @@ export class Enemy {
         this.spritesheet.src = spritesheetSrc
     }
 
-    move({ mvLeft, mvUp, mvRight, mvDown }: Direction, isVisible: boolean) {
-        this.positionAnimation({ mvLeft, mvUp, mvRight, mvDown })
+    move(player: Player, isVisible: boolean) {
+        this.positionAnimation(player)
+
         if (isVisible) {
-            this.setDirection({ mvLeft, mvUp, mvRight, mvDown })
+            this.setDirection({ 
+                mvLeft: player.x < this.x,
+                mvRight: player.x > this.x,
+                mvUp: player.y < this.y,
+                mvDown: player.y > this.y,
+            })
             this.spriteAnimation()
         }
     }
 
-    private positionAnimation({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
+    positionAnimation(player: Player) {
+        
+        const { x: directionX, y: directionY } = calculate2DMovement(this, player)
+        const velocityX = directionX * this.speed
+        const velocityY = directionY * this.speed
 
-        const TEMP_SPEED = ((mvLeft || mvRight) && (mvDown || mvUp)) 
-            ? this.speed / 3
-            : this.speed
-       
-
-        if (mvLeft && !mvRight) {
-            this.x = this.x - TEMP_SPEED
-            
-        } else if (mvRight && !mvLeft) {
-            this.x = this.x + TEMP_SPEED
-        }
-
-        if (mvUp && !mvDown) {
-            this.y = this.y - TEMP_SPEED
-
-        } else if (mvDown && !mvUp) {
-            this.y = this.y + TEMP_SPEED
-        }
+        this.x += velocityX
+        this.y += velocityY
     }
 
     private setDirection({ mvLeft, mvUp, mvRight, mvDown }: Direction) {

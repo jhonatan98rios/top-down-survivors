@@ -39,6 +39,10 @@ export class Canvas {
         this.enemyService = EnemyService.getInstance()
         this.width = SCREEN_WIDTH, 
         this.height = SCREEN_HEIGHT
+
+        // setInterval(() => {
+        //     this.renderBenchmark()
+        // }, 1000)
     }
 
     render(){
@@ -57,8 +61,9 @@ export class Canvas {
             this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y > this.player.y))
 
             this.renderSkills(this.game.skillService.activeSkills)
-
             this.renderStatus()
+            
+            this.renderBenchmark()
         }
 
         this.scenario.layers.aboveThePlayers.forEach(element => {
@@ -159,8 +164,18 @@ export class Canvas {
         const { currentHealth, maxHealth } =  this.player.status
 
         this.context.beginPath();
+
+        this.context.strokeStyle = '#FFFFFF'
         this.context.fillStyle = currentHealth > maxHealth / 2 
             ? "#AAFFCC" : "#FFCCAA"
+
+
+        this.context.strokeRect(
+            Math.floor(this.camera.x + 19), 
+            Math.floor(this.camera.y + 19), 
+            202, 22
+        )
+
 
         this.context.fillRect(
             Math.floor(this.camera.x + 20), 
@@ -168,6 +183,17 @@ export class Canvas {
             Math.floor((currentHealth / maxHealth) * 200), 
             20
         );
+    }
+
+    renderBenchmark() {
+        if (this.game) {
+            this.context.font = "30px Arial";
+            this.context.fillText(
+                this.game.fps.toString(), 
+                Math.floor(this.camera.x + this.camera.width - 50), 
+                Math.floor(this.camera.y + 40)
+            );
+        }
     }
 
     public static getInstance(): Canvas {

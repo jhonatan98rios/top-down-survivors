@@ -10,7 +10,6 @@ export class EnemyService {
 
     private static instance: EnemyService;
 
-    game: Game
     player: Player
     enemies: Enemy[]
     orbService: OrbService
@@ -25,9 +24,9 @@ export class EnemyService {
 
     spawn() {
         this.sortEnemies()
-        setTimeout(this.spawn.bind(this), 200)
+        setTimeout(this.spawn.bind(this), 10)
         
-        if (this.enemies.length > 200) return
+        //if (this.enemies.length > 200) return
 
         const randomDistance = {
             x: Math.floor(Math.random() * 200) + SCREEN_WIDTH,
@@ -44,15 +43,7 @@ export class EnemyService {
 
     move(game: Game) {
         this.enemies.forEach(enemy => {
-            enemy.move(
-                {
-                    mvLeft: this.player.x < enemy.x,
-                    mvRight: this.player.x > enemy.x,
-                    mvUp: this.player.y < enemy.y,
-                    mvDown: this.player.y > enemy.y,
-                },
-                isThereIntersection(game.camera, enemy)
-            )
+            enemy.move(game.player, isThereIntersection(game.camera, enemy))
         })
     }
 
