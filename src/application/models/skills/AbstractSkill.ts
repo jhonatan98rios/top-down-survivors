@@ -5,8 +5,8 @@ export abstract class AbstractSkill {
     abstract id: string
     abstract width: number
     abstract height: number
-    abstract posX: number
-    abstract posY: number
+    abstract x: number
+    abstract y: number
     abstract srcX: number
     abstract srcY: number
     abstract countAnim: number

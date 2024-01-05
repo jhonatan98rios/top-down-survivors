@@ -44,17 +44,18 @@ export class Enemy {
         this.srcX = srcX
         this.srcY = srcY
         this.direction = direction
-        this.scenario = Scenario.getInstance()
         this.countAnim = 0
 
         this.spritesheet = new Image()
         this.spritesheet.src = spritesheetSrc
     }
 
-    move({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
+    move({ mvLeft, mvUp, mvRight, mvDown }: Direction, isVisible: boolean) {
         this.positionAnimation({ mvLeft, mvUp, mvRight, mvDown })
-        this.setDirection({ mvLeft, mvUp, mvRight, mvDown })
-        this.spriteAnimation()
+        if (isVisible) {
+            this.setDirection({ mvLeft, mvUp, mvRight, mvDown })
+            this.spriteAnimation()
+        }
     }
 
     private positionAnimation({ mvLeft, mvUp, mvRight, mvDown }: Direction) {

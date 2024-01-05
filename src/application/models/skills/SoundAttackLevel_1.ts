@@ -19,8 +19,8 @@ export class SoundAttackLevel_1 implements AbstractSkill {
     targetX: number
     targetY: number
 
-    posX: number
-    posY: number
+    x: number
+    y: number
     srcX: number
     srcY: number
     countAnim: number
@@ -30,8 +30,8 @@ export class SoundAttackLevel_1 implements AbstractSkill {
     constructor({ initialX, initialY, targetX, targetY }: ISoundAttackLevel_1) {
 
         this.id = generateUUID()
-        this.posX = initialX
-        this.posY = initialY
+        this.x = initialX
+        this.y = initialY
         this.initialX = initialX
         this.initialY = initialY
         this.targetX = targetX
@@ -58,8 +58,8 @@ export class SoundAttackLevel_1 implements AbstractSkill {
         const velocityX = directionX * this.speed
         const velocityY = directionY * this.speed
 
-        this.posX += velocityX
-        this.posY += velocityY
+        this.x += velocityX
+        this.y += velocityY
     }
 
     animate() {
@@ -71,7 +71,7 @@ export class SoundAttackLevel_1 implements AbstractSkill {
         for (let index = 0; index < enemies.length; index++) {
             let enemy = enemies[index]
 
-            if ((this.posX <= enemy.x + enemy.width) && (this.posX + this.width >= enemy.x) && (this.posY <= enemy.y + enemy.height && this.posY + this.height >= enemy.y)) {
+            if ((this.x <= enemy.x + enemy.width) && (this.x + this.width >= enemy.x) && (this.y <= enemy.y + enemy.height && this.y + this.height >= enemy.y)) {
                 return callback(this.id, enemy)
             }
         }

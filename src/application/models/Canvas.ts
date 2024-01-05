@@ -105,7 +105,6 @@ export class Canvas {
     private renderEnemies(enemies: Enemy[]) {
         enemies.forEach(enemy => {
 
-            
             if (isThereIntersection(this.camera, enemy)) {
                 this.context.drawImage(
                     enemy.spritesheet,
@@ -123,31 +122,36 @@ export class Canvas {
     }
 
     private renderSkills(activeSkills: AbstractSkill[]) {
+
         activeSkills.forEach(activeSkill => {
-            this.context.drawImage(
-                activeSkill.spritesheet,
-                Math.floor(activeSkill.srcX),
-                Math.floor(activeSkill.srcY),
-                Math.floor(activeSkill.width),
-                Math.floor(activeSkill.height),
-                Math.floor(activeSkill.posX),
-                Math.floor(activeSkill.posY),
-                Math.floor(activeSkill.width), 
-                Math.floor(activeSkill.height)
-            );
+            if (isThereIntersection(this.camera, activeSkill)){
+                this.context.drawImage(
+                    activeSkill.spritesheet,
+                    Math.floor(activeSkill.srcX),
+                    Math.floor(activeSkill.srcY),
+                    Math.floor(activeSkill.width),
+                    Math.floor(activeSkill.height),
+                    Math.floor(activeSkill.x),
+                    Math.floor(activeSkill.y),
+                    Math.floor(activeSkill.width), 
+                    Math.floor(activeSkill.height)
+                );
+            }
         })
     }
 
     private renderOrbs(orbs: XPOrb[]) {
         this.context.beginPath();
         orbs.forEach(orb => {
-            this.context.fillStyle = orb.color;
-            this.context.fillRect(
-                Math.floor(orb.x),
-                Math.floor(orb.y), 
-                Math.floor(orb.width),
-                Math.floor(orb.height)
-            );
+            if (isThereIntersection(this.camera, orb)) {
+                this.context.fillStyle = orb.color;
+                this.context.fillRect(
+                    Math.floor(orb.x),
+                    Math.floor(orb.y), 
+                    Math.floor(orb.width),
+                    Math.floor(orb.height)
+                );
+            }
         })
     }
 

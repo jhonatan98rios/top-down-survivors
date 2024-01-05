@@ -23,7 +23,7 @@ export class Game {
     skillService: SkillService
     orbService: OrbService
 
-    // fps: number
+    fps: number
 
     constructor() {
         this.player = Player.getInstance()
@@ -40,17 +40,17 @@ export class Game {
         this.canvas.game = this
         this.player.game = this
 
-        // this.fps = 0
-        // setInterval(() => {
-        //     console.log(this.fps)
-        //     this.fps = 0
-        // }, 1000)
+        this.fps = 0
+        setInterval(() => {
+            console.log(this.fps)
+            this.fps = 0
+        }, 1000)
     }
 
     update(){
         this.playerEventService.execute()
 
-        this.enemyService.move()
+        this.enemyService.move(this)
         this.skillService.move()
         this.skillService.checkCollision()
         
@@ -76,7 +76,7 @@ export class Game {
         this.update()
         this.canvas.render()
 
-        // this.fps += 1
+        this.fps += 1
 
         requestAnimationFrame(this.loop.bind(this))
     }

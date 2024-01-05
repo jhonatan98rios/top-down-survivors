@@ -1,6 +1,8 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
 import { Enemy } from "../models/Enemy"
+import { Game } from "../models/Game";
 import { Player } from "../models/Player";
+import { isThereIntersection } from "../utils/utils";
 import { EnemyFactory } from "./EnemyFactory";
 import { OrbService } from "./OrbService";
 
@@ -8,6 +10,7 @@ export class EnemyService {
 
     private static instance: EnemyService;
 
+    game: Game
     player: Player
     enemies: Enemy[]
     orbService: OrbService
@@ -39,14 +42,17 @@ export class EnemyService {
         this.enemies.push(EnemyFactory.randomCreate(randomPos))
     }
 
-    move() {
+    move(game: Game) {
         this.enemies.forEach(enemy => {
-            enemy.move({
-                mvLeft: this.player.x < enemy.x,
-                mvRight: this.player.x > enemy.x,
-                mvUp: this.player.y < enemy.y,
-                mvDown: this.player.y > enemy.y,
-            })
+            enemy.move(
+                {
+                    mvLeft: this.player.x < enemy.x,
+                    mvRight: this.player.x > enemy.x,
+                    mvUp: this.player.y < enemy.y,
+                    mvDown: this.player.y > enemy.y,
+                },
+                isThereIntersection(game.camera, enemy)
+            )
         })
     }
 
