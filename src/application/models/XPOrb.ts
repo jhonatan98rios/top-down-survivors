@@ -6,6 +6,7 @@ export class XPOrb {
     y: number
     width: number
     height: number
+    value: number
     color: string
 
     constructor({ x, y }: Partial<XPOrb>) {
@@ -14,6 +15,7 @@ export class XPOrb {
         this.y = y
         this.width = 5
         this.height = 10
+        this.value = 1
         this.color = "#55AAFF"
 
         this.animate(true)

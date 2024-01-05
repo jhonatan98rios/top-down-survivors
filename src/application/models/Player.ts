@@ -3,6 +3,7 @@ import { Enemy } from "./Enemy";
 import { Game } from "./Game";
 import { PlayerStatus } from "./PlayerStatus";
 import { Scenario } from "./Scenario";
+import { XPOrb } from "./XPOrb";
 
 export enum DIRECTION {
     LEFT = 0,
@@ -51,9 +52,8 @@ export class Player {
 
     update({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
         this.move({ mvLeft, mvUp, mvRight, mvDown })
-        this.checkCollision(this.game.enemyService.enemies, (enemy: Enemy) => {
-            this.status.takeDamage(5) // enemy.damage
-        })
+        this.checkCollision(this.game.enemyService.enemies)
+        this.checkXpOrbsCollection(this.game.orbService.xpOrbs)
 
         this.setDirection({ mvLeft, mvUp, mvRight, mvDown })
         this.spriteAnimation()
@@ -118,13 +118,24 @@ export class Player {
         this.srcX = SELECTED_FRAME * this.width;
     }
 
-    public checkCollision(enemies: Enemy[], callback: (enemy: Enemy) => void) {
+    public checkCollision(enemies: Enemy[]) {
 
         for (let index = 0; index < enemies.length; index++) {
             let enemy = enemies[index]
 
             if ((this.x <= enemy.x + enemy.width) && (this.x + this.width >= enemy.x) && (this.y <= enemy.y + enemy.height && this.y + this.height >= enemy.y)) {
-                return callback(enemy)
+                //return this.status.takeDamage(5) //enemy.damage
+            }
+        }
+    }
+
+    public checkXpOrbsCollection(xpOrbs: XPOrb[]) {
+        for (let index = 0; index < xpOrbs.length; index++) {
+            let xpOrb = xpOrbs[index]
+
+            if ((this.x <= xpOrb.x + xpOrb.width) && (this.x + this.width >= xpOrb.x) && (this.y <= xpOrb.y + xpOrb.height && this.y + this.height >= xpOrb.y)) {
+                this.status.takeXp(xpOrb.value)
+                this.game.orbService.remove(xpOrb.id)
             }
         }
     }

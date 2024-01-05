@@ -6,26 +6,30 @@ export class OrbService {
     private static instance: OrbService;
 
     player: Player
-    xpObs: XPOrb[]
+    xpOrbs: XPOrb[]
 
     constructor() {
         this.player = Player.getInstance()
-        this.xpObs = []
+        this.xpOrbs = []
     }
 
     spawnXpOrb({ x, y }: Partial<XPOrb>) {
-        this.xpObs.push(
+        this.xpOrbs.push(
             new XPOrb({ x, y })
         )       
         this.sortOrbs()        
     }
 
     sortOrbs() {
-        this.xpObs.sort((a, b) => {
+        this.xpOrbs.sort((a, b) => {
             const distanceToA = Math.sqrt(Math.pow(this.player.x - a.x, 2) + Math.pow(this.player.y - a.y, 2));
             const distanceToB = Math.sqrt(Math.pow(this.player.x - b.x, 2) + Math.pow(this.player.y - b.y, 2));
             return distanceToA - distanceToB;
         });
+    }
+
+    remove(id: string) {
+        this.xpOrbs = this.xpOrbs.filter(orb => orb.id != id)
     }
 
     public static getInstance(): OrbService {

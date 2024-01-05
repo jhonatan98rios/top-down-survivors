@@ -49,7 +49,7 @@ export class Canvas {
         })
 
         if (this.game) {
-            this.renderOrbs(this.game.orbService.xpObs)
+            this.renderOrbs(this.game.orbService.xpOrbs)
             
             this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y <= this.player.y))
             this.renderPlayer(this.player)

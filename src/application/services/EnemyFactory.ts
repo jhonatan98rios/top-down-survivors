@@ -8,7 +8,7 @@ type RandomPos = {
 export class EnemyFactory {
 
     static randomCreate(randomPos: RandomPos) {
-        const random = Math.floor(Math.random() * 4)
+        const random = 1//Math.floor(Math.random() * 4)
 
         return ([
             this.createCyclops(randomPos),
@@ -24,7 +24,7 @@ export class EnemyFactory {
             y: randomPos.y,
             width: 144 / 4,
             height: 150 / 2,
-            speed: Math.random() * 3 + 1,
+            speed: 5,// Math.random() * 3 + 1,
             srcX: 0,
             srcY: 0,
             direction: DIRECTION.LEFT,
