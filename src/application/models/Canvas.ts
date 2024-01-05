@@ -9,7 +9,8 @@ import { Enemy } from "./Enemy";
 import { AbstractSkill } from "./skills/AbstractSkill";
 import { XPOrb } from "./XPOrb";
 import { isThereIntersection } from "../utils/utils";
-
+import { drawAnimatedBar } from "../components/drawAnimatedBar";
+import { drawText } from "../components/drawText";
 
 
 export class Canvas {
@@ -39,10 +40,6 @@ export class Canvas {
         this.enemyService = EnemyService.getInstance()
         this.width = SCREEN_WIDTH, 
         this.height = SCREEN_HEIGHT
-
-        // setInterval(() => {
-        //     this.renderBenchmark()
-        // }, 1000)
     }
 
     render(){
@@ -161,38 +158,46 @@ export class Canvas {
     }
 
     private renderStatus() {
-        const { currentHealth, maxHealth } =  this.player.status
+        const { currentHealth, maxHealth, currentXP, nextLevelXp } =  this.player.status
 
-        this.context.beginPath();
+        
 
-        this.context.strokeStyle = '#FFFFFF'
-        this.context.fillStyle = currentHealth > maxHealth / 2 
-            ? "#AAFFCC" : "#FFCCAA"
+        drawAnimatedBar({
+            context: this.context,
+            camera: this.camera,
+            curentValue: currentHealth,
+            maxValue: maxHealth,
+            minColor: "#FF5555",
+            maxColor: "#55FF55",
+            height: 20,
+            width: 200,
+            posX: 20,
+            posY: 20
+        })
 
-
-        this.context.strokeRect(
-            Math.floor(this.camera.x + 19), 
-            Math.floor(this.camera.y + 19), 
-            202, 22
-        )
-
-
-        this.context.fillRect(
-            Math.floor(this.camera.x + 20), 
-            Math.floor(this.camera.y + 20), 
-            Math.floor((currentHealth / maxHealth) * 200), 
-            20
-        );
+        drawAnimatedBar({
+            context: this.context,
+            camera: this.camera,
+            curentValue: currentXP,
+            maxValue: nextLevelXp,
+            minColor: "#5555FF",
+            maxColor: "#AAAAFF",
+            height: 20,
+            width: 200,
+            posX: 20,
+            posY: 50
+        })
     }
 
     renderBenchmark() {
         if (this.game) {
-            this.context.font = "30px Arial";
-            this.context.fillText(
-                this.game.fps.toString(), 
-                Math.floor(this.camera.x + this.camera.width - 50), 
-                Math.floor(this.camera.y + 40)
-            );
+            drawText({
+                context: this.context,
+                camera: this.camera,
+                curentValue: this.game.fps.toString(),
+                posX: this.camera.width - 50,
+                posY: 40
+            })
         }
     }
 
