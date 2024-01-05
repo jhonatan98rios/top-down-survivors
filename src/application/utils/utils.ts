@@ -7,3 +7,9 @@ export function generateUUID(): UUID {
         return v.toString(16) as UUID
     });
 }
+
+export type Element2D = { x: number, y: number, width: number, height: number }
+
+export function isThereIntersection(elementA: Element2D, elementB:Element2D) {
+    return (elementA.x <= elementB.x + elementB.width) && (elementA.x + elementA.width >= elementB.x) && (elementA.y <= elementB.y + elementB.height && elementA.y + elementA.height >= elementB.y)
+}

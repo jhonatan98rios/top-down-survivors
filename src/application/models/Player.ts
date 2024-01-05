@@ -1,4 +1,5 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
+import { isThereIntersection } from "../utils/utils";
 import { Enemy } from "./Enemy";
 import { Game } from "./Game";
 import { PlayerStatus } from "./PlayerStatus";
@@ -123,7 +124,7 @@ export class Player {
         for (let index = 0; index < enemies.length; index++) {
             let enemy = enemies[index]
 
-            if ((this.x <= enemy.x + enemy.width) && (this.x + this.width >= enemy.x) && (this.y <= enemy.y + enemy.height && this.y + this.height >= enemy.y)) {
+            if (isThereIntersection(this, enemy)) {
                 //return this.status.takeDamage(5) //enemy.damage
             }
         }
@@ -133,7 +134,7 @@ export class Player {
         for (let index = 0; index < xpOrbs.length; index++) {
             let xpOrb = xpOrbs[index]
 
-            if ((this.x <= xpOrb.x + xpOrb.width) && (this.x + this.width >= xpOrb.x) && (this.y <= xpOrb.y + xpOrb.height && this.y + this.height >= xpOrb.y)) {
+            if (isThereIntersection(this, xpOrb)) {
                 this.status.takeXp(xpOrb.value)
                 this.game.orbService.remove(xpOrb.id)
             }

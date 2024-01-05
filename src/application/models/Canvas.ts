@@ -8,6 +8,7 @@ import { EnemyService } from "../services/EnemyService";
 import { Enemy } from "./Enemy";
 import { AbstractSkill } from "./skills/AbstractSkill";
 import { XPOrb } from "./XPOrb";
+import { isThereIntersection } from "../utils/utils";
 
 
 
@@ -31,7 +32,7 @@ export class Canvas {
         this.htmlCanvas.width = SCREEN_WIDTH
         this.htmlCanvas.height = SCREEN_HEIGHT
         
-        this.context = this.htmlCanvas.getContext("2d") as CanvasRenderingContext2D
+        this.context = this.htmlCanvas.getContext("2d", { alpha: false }) as CanvasRenderingContext2D
         this.scenario = Scenario.getInstance()
         this.camera = Camera.getInstance()
         this.player = Player.getInstance()
@@ -68,47 +69,56 @@ export class Canvas {
     }
 
     private clearCanvas() {
-        this.context.clearRect(0, 0, this.width, this.height);
+        this.context.clearRect(0, 0, Math.floor(this.width), Math.floor(this.height));
         this.context.save();
     }
 
     private moveCamera() {
-        this.context.translate(-this.camera.x,-this.camera.y)
+        this.context.translate(Math.floor(-this.camera.x), Math.floor(-this.camera.y))
     }
 
     private renderElement(element: Element) {
         const ptrn = this.context.createPattern(element.image, 'repeat') // Create a pattern with this image, and set it to "repeat".
         this.context.fillStyle = ptrn!
-        this.context.fillRect(element.x, element.y, element.width, element.height);
+        this.context.fillRect(
+            Math.floor(element.x), 
+            Math.floor(element.y), 
+            Math.floor(element.width), 
+            Math.floor(element.height)
+        );
     }
 
     private renderPlayer(player: Player) {
         this.context.drawImage(
             player.spritesheet,
-            player.srcX, 
-            player.srcY, 
-            player.width, 
-            player.height,
-            player.x, 
-            player.y, 
-            player.width, 
-            player.height
+            Math.floor(player.srcX), 
+            Math.floor(player.srcY), 
+            Math.floor(player.width), 
+            Math.floor(player.height),
+            Math.floor(player.x), 
+            Math.floor(player.y), 
+            Math.floor(player.width), 
+            Math.floor(player.height)
         );
     }
 
     private renderEnemies(enemies: Enemy[]) {
         enemies.forEach(enemy => {
-            this.context.drawImage(
-                enemy.spritesheet,
-                enemy.srcX, 
-                enemy.srcY, 
-                enemy.width, 
-                enemy.height,
-                enemy.x, 
-                enemy.y, 
-                enemy.width, 
-                enemy.height
-            );
+
+            
+            if (isThereIntersection(this.camera, enemy)) {
+                this.context.drawImage(
+                    enemy.spritesheet,
+                    Math.floor(enemy.srcX), 
+                    Math.floor(enemy.srcY), 
+                    Math.floor(enemy.width), 
+                    Math.floor(enemy.height),
+                    Math.floor(enemy.x), 
+                    Math.floor(enemy.y), 
+                    Math.floor(enemy.width), 
+                    Math.floor(enemy.height)
+                );
+            }
         })
     }
 
@@ -116,14 +126,14 @@ export class Canvas {
         activeSkills.forEach(activeSkill => {
             this.context.drawImage(
                 activeSkill.spritesheet,
-                activeSkill.srcX, 
-                activeSkill.srcY, 
-                activeSkill.width, 
-                activeSkill.height,
-                activeSkill.posX, 
-                activeSkill.posY, 
-                activeSkill.width, 
-                activeSkill.height
+                Math.floor(activeSkill.srcX),
+                Math.floor(activeSkill.srcY),
+                Math.floor(activeSkill.width),
+                Math.floor(activeSkill.height),
+                Math.floor(activeSkill.posX),
+                Math.floor(activeSkill.posY),
+                Math.floor(activeSkill.width), 
+                Math.floor(activeSkill.height)
             );
         })
     }
@@ -131,9 +141,13 @@ export class Canvas {
     private renderOrbs(orbs: XPOrb[]) {
         this.context.beginPath();
         orbs.forEach(orb => {
-            //this.context.rect(orb.x, orb.y, orb.width, orb.height)
             this.context.fillStyle = orb.color;
-            this.context.fillRect(orb.x, orb.y,  orb.width, orb.height);
+            this.context.fillRect(
+                Math.floor(orb.x),
+                Math.floor(orb.y), 
+                Math.floor(orb.width),
+                Math.floor(orb.height)
+            );
         })
     }
 
@@ -145,12 +159,11 @@ export class Canvas {
             ? "#AAFFCC" : "#FFCCAA"
 
         this.context.fillRect(
-            this.camera.x + 20, 
-            this.camera.y + 20, 
-            (currentHealth / maxHealth) * 200, 
+            Math.floor(this.camera.x + 20), 
+            Math.floor(this.camera.y + 20), 
+            Math.floor((currentHealth / maxHealth) * 200), 
             20
         );
-        
     }
 
     public static getInstance(): Canvas {
