@@ -2,7 +2,7 @@ import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
 import { Enemy } from "../models/Enemy"
 import { Game } from "../models/Game";
 import { Player } from "../models/Player";
-import { isThereIntersection } from "../utils/utils";
+import { Element2D, isThereIntersection } from "../utils/utils";
 import { EnemyFactory } from "./EnemyFactory";
 import { OrbService } from "./OrbService";
 
@@ -24,21 +24,27 @@ export class EnemyService {
 
     spawn() {
         this.sortEnemies()
-        setTimeout(this.spawn.bind(this), 10)
+        setTimeout(this.spawn.bind(this), 100)
         
-        //if (this.enemies.length > 200) return
+        if (this.enemies.length >= 1000) return
 
         const randomDistance = {
-            x: Math.floor(Math.random() * 200) + SCREEN_WIDTH,
-            y: Math.floor(Math.random() * 500) + SCREEN_HEIGHT
+            x: Math.floor(Math.random() * 1000) + (SCREEN_WIDTH / 2),
+            y: Math.floor(Math.random() * 1000) + (SCREEN_HEIGHT / 2)
         }
 
         const randomPos = {
             x: randomDistance.x % 2 ? this.player.x - randomDistance.x : this.player.x + randomDistance.x,
             y: randomDistance.y % 2 ? this.player.y - randomDistance.y : this.player.y + randomDistance.y,
         }
+
+        const createdEnemy = EnemyFactory.randomCreate(randomPos)
+
+        if (!this.checkEmptySpaceToSpawn(createdEnemy)) {
+            return
+        }
         
-        this.enemies.push(EnemyFactory.randomCreate(randomPos))
+        this.enemies.push(createdEnemy)
     }
 
     move(game: Game) {
@@ -62,6 +68,19 @@ export class EnemyService {
             x: x + (width / 2), 
             y: y + (height / 2)
         })
+    }
+
+    checkEmptySpaceToSpawn(body: Element2D) {
+        for (let index = 0; index <= this.enemies.length - 1; index++) {
+            let otherEnemy = this.enemies[index]
+
+            if (isThereIntersection(body, otherEnemy)) {
+                console.log("There is Intersection!")
+                return false
+            }
+        }
+
+        return true
     }
 
     public static getInstance(): EnemyService {

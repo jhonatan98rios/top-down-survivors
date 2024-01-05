@@ -1,4 +1,4 @@
-import { UUID, calculate2DMovement, generateUUID } from "../utils/utils";
+import { Element2D, UUID, calculate2DMovement, generateUUID, isThereIntersection } from "../utils/utils";
 import { Player } from "./Player";
 import { Scenario } from "./Scenario";
 
@@ -77,8 +77,20 @@ export class Enemy {
         const velocityX = directionX * this.speed
         const velocityY = directionY * this.speed
 
-        this.x += velocityX
-        this.y += velocityY
+        const newX = this.x + velocityX
+        const newY = this.y + velocityY
+
+        let shouldMoveX = !this.checkCollision(
+            { ...this, x: newX }, 
+            player.game.enemyService.enemies
+        )
+        let shouldMoveY = !this.checkCollision(
+            { ...this, y: newY }, 
+            player.game.enemyService.enemies
+        )
+
+        this.x = shouldMoveX ? newX : this.x
+        this.y = shouldMoveY ? newY : this.y
     }
 
     private setDirection({ mvLeft, mvUp, mvRight, mvDown }: Direction) {
@@ -113,7 +125,18 @@ export class Enemy {
         this.srcX = SELECTED_FRAME * this.width;
     }
 
-    public die() {
-        
+    public checkCollision(enemy: Enemy, enemies: Enemy[]) {
+
+        for (let index = 0; index < enemies.length; index++) {
+            let otherEnemy = enemies[index]
+
+            if (enemy.id != otherEnemy.id) {
+                if (isThereIntersection(enemy, otherEnemy)) {
+                    return true
+                }
+            }
+        }
+    
+        return false
     }
 }

@@ -12,7 +12,17 @@ export type Vector2D = {x: number, y: number}
 export type Element2D = Vector2D & { width: number, height: number }
 
 export function isThereIntersection(elementA: Element2D, elementB:Element2D) {
-    return (elementA.x <= elementB.x + elementB.width) && (elementA.x + elementA.width >= elementB.x) && (elementA.y <= elementB.y + elementB.height && elementA.y + elementA.height >= elementB.y)
+    const aLeft = elementA.x;
+    const aRight = elementA.x + elementA.width;
+    const aTop = elementA.y;
+    const aBottom = elementA.y + elementA.height;
+    
+    const bLeft = elementB.x;
+    const bRight = elementB.x + elementB.width;
+    const bTop = elementB.y;
+    const bBottom = elementB.y + elementB.height;
+
+    return (aLeft <= bRight && aRight >= bLeft && aTop <= bBottom && aBottom >= bTop);
 }
 
 export function calculate2DMovement(body: Vector2D, target: Vector2D): Vector2D {
