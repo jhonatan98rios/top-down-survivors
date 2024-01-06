@@ -8,8 +8,15 @@ export class CachedImages {
     dragon: HTMLImageElement
     crawler: HTMLImageElement
 
+    soundAttackLevel_1: HTMLImageElement
+
 
     constructor() {
+        this.createEnemies()
+        this.createSkills()
+    }
+    
+    createEnemies() {
         this.player = new Image()
         this.player.src = "img/players/standard/spritesheet.png"
         this.spirit = new Image()
@@ -20,6 +27,11 @@ export class CachedImages {
         this.dragon.src = "img/enemies/dragon.png"
         this.crawler = new Image()
         this.crawler.src = "img/enemies/crawler.png"
+    }
+
+    createSkills() {
+        this.soundAttackLevel_1 = new Image()
+        this.soundAttackLevel_1.src = "img/skills/sound_attack_level_1.png"
     }
     
     getPlayer() {
@@ -40,6 +52,10 @@ export class CachedImages {
     
     getCrawler() {
         return this.crawler
+    }
+
+    getSoundAttackLevel_1() {
+        return this.soundAttackLevel_1
     }
 
     public static getInstance(): CachedImages {
