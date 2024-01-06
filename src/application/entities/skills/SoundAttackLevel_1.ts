@@ -1,4 +1,5 @@
 import { UUID, generateUUID } from "../../utils/utils";
+import { CachedImages } from "../CachedImages";
 import { Enemy } from "../Enemy";
 import { AbstractSkill } from "./AbstractSkill";
 
@@ -44,8 +45,7 @@ export class SoundAttackLevel_1 implements AbstractSkill {
         this.speed = 5
         
         this.countAnim = 0
-        this.spritesheet = new Image()
-        this.spritesheet.src = "img/skills/sound_attack_level_1.png"
+        this.spritesheet = CachedImages.getInstance().getSoundAttackLevel_1()
     }
 
     move() {
