@@ -1,3 +1,5 @@
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from '../../constants'
+import { drawButton } from './drawButton'
 import { drawNotification } from './drawNotification'
 import { drawText } from './drawText'
 
@@ -23,5 +25,14 @@ export function drawDeathNotification({ context, height, width, posX, posY }: ID
         font: "32px Arial",
         posX: posX + (width / 2) - 100,
         posY: posY + (height / 2),
+    })
+
+    drawButton({
+        value: "Recomeçar",
+        height: 32,
+        width: 150,
+        posX: (SCREEN_WIDTH / 2) - 75,
+        posY: (SCREEN_HEIGHT / 2) - 16,
+        callback: () => { window.location.reload() }
     })
 }

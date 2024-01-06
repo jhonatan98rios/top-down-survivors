@@ -12,8 +12,8 @@ export class PlayerStatus {
 
     constructor () {
         this.level = 1
-        this.maxHealth = 1
-        this.currentHealth = 1
+        this.maxHealth = 10
+        this.currentHealth = 10
         this.vulnerable = true
         this.currentXP = 0
         this.nextLevelXp = 5
@@ -29,10 +29,7 @@ export class PlayerStatus {
 
     takeDamage(player: Player, damage: number) {
         if (this.currentHealth <= 0) {
-            
             player.die()
-            //return window.location.reload()
-
             return
         } 
         
@@ -46,7 +43,7 @@ export class PlayerStatus {
         }, 1000)
     }
 
-    takeXp(xp: number, player: Player) {
+    takeXp(xp: number) {
         if (this.currentXP + xp >= this.nextLevelXp) {
             return this.upgrade()
         } 

@@ -137,7 +137,7 @@ export class Player {
             let xpOrb = xpOrbs[index]
 
             if (isThereIntersection(this, xpOrb)) {
-                this.status.takeXp(xpOrb.value, this)
+                this.status.takeXp(xpOrb.value)
                 this.game.orbService.remove(xpOrb.id)
             }
         }
