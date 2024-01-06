@@ -127,7 +127,7 @@ export class Player {
             let enemy = enemies[index]
 
             if (isThereIntersection(this, enemy)) {
-                return this.status.takeDamage(enemy.damage)
+                return this.status.takeDamage(this, enemy.damage)
             }
         }
     }
@@ -141,6 +141,10 @@ export class Player {
                 this.game.orbService.remove(xpOrb.id)
             }
         }
+    }
+
+    public die() {
+        this.game.canvas.renderDeathNotification()
     }
 
     public static getInstance(): Player {

@@ -12,8 +12,8 @@ export class PlayerStatus {
 
     constructor () {
         this.level = 1
-        this.maxHealth = 50
-        this.currentHealth = 50
+        this.maxHealth = 1
+        this.currentHealth = 1
         this.vulnerable = true
         this.currentXP = 0
         this.nextLevelXp = 5
@@ -27,9 +27,13 @@ export class PlayerStatus {
         return PlayerStatus.instance;
     }
 
-    takeDamage(damage: number) {
+    takeDamage(player: Player, damage: number) {
         if (this.currentHealth <= 0) {
-            return window.location.reload()
+            
+            player.die()
+            //return window.location.reload()
+
+            return
         } 
         
         if (!this.vulnerable) return

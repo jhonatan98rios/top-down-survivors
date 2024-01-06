@@ -1,23 +1,23 @@
 import { Camera } from "../entities/Camera";
 
 interface IdrawText{
-    camera: Camera
+    camera?: Camera
     context: CanvasRenderingContext2D,
-    curentValue: string,
+    value: string,
     font: string,
     posX: number,
     posY: number,
 }
 
-export function drawText({ context, curentValue, font, camera, posX, posY }: IdrawText) {
+export function drawText({ context, value, font, camera=null, posX, posY }: IdrawText) {
 
     context.beginPath();
 
     context.font = font;
     context.fillText(
-        curentValue.toString(), 
-        Math.floor(camera.x + posX), 
-        Math.floor(camera.y + posY)
+        value, 
+        camera ? Math.floor(camera.x + posX) : posX, 
+        camera ? Math.floor(camera.y + posY) : posY
     );
 
     context.closePath()

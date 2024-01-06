@@ -1,7 +1,4 @@
-import { Camera } from "../entities/Camera";
-
 interface IAnimatedBar {
-    camera: Camera
     context: CanvasRenderingContext2D,
     curentValue: number,
     maxValue: number,
@@ -13,12 +10,12 @@ interface IAnimatedBar {
     height: number
 }
 
-export function drawAnimatedBar({ context, curentValue, maxValue, camera, minColor, maxColor, height, width, posX, posY }: IAnimatedBar) {
+export function drawAnimatedBar({ context, curentValue, maxValue, minColor, maxColor, height, width, posX, posY }: IAnimatedBar) {
 
     context.beginPath();
 
     context.strokeStyle = '#FFFFFF'
-    context.fillStyle = curentValue > maxValue / 2 
+    context.fillStyle = curentValue > maxValue * 0.6
         ? maxColor : minColor
 
 

@@ -8,9 +8,18 @@ import { EnemyService } from "../services/EnemyService"
 import { SkillService } from "../services/SkillService"
 import { OrbService } from "../services/OrbService"
 
+
+export enum GameStatus {
+    stopped = 0,
+    running = 1,
+    paused = 2,
+}
+
 export class Game {
 
     private static instance: Game;
+
+    status: GameStatus
     
     player: Player
     canvas: Canvas
@@ -27,6 +36,8 @@ export class Game {
     fpsCounter: number
 
     constructor() {
+        this.status = GameStatus.running
+
         this.player = Player.getInstance()
         this.canvas = Canvas.getInstance()
         this.scenario = Scenario.getInstance()
@@ -51,12 +62,12 @@ export class Game {
     }
 
     update(){
+        if (this.status != GameStatus.running) return
+            
         this.playerEventService.execute()
-
         this.enemyService.move(this)
         this.skillService.move()
         this.skillService.checkCollision()
-        
         this.moveCamera()
     }
 

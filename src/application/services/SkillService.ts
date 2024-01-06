@@ -75,10 +75,8 @@ export class SkillService {
     }
 
     collision(skill: AbstractSkill, enemy: Enemy) {
-        //console.log(skillId, enemy.id)
         this.remove(skill.id)
         this.enemyService.applyDamage(enemy, skill.damage)
-        console.log(`Applying damage on ${ enemy.id } by ${ skill.damage } of damage`)
     }
 
     remove(id: string) {

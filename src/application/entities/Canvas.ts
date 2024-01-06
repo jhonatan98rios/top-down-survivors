@@ -1,7 +1,7 @@
 import { Camera } from "./Camera";
 import { Scenario } from "./Scenario";
 import { Player } from "./Player";
-import { Game } from "./Game";
+import { Game, GameStatus } from "./Game";
 import { Element } from "../../database/scenarios/mock";
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
 import { EnemyService } from "../services/EnemyService";
@@ -11,6 +11,7 @@ import { XPOrb } from "./XPOrb";
 import { isThereIntersection } from "../utils/utils";
 import { drawAnimatedBar } from "../components/drawAnimatedBar";
 import { drawText } from "../components/drawText";
+import { drawDeathNotification } from "../components/drawDeathNotification";
 
 
 export class Canvas {
@@ -43,6 +44,9 @@ export class Canvas {
     }
 
     render(){
+
+        if (!this.game || this.game.status !== GameStatus.running) return
+
         this.clearCanvas()
         this.moveCamera()
 
@@ -50,20 +54,19 @@ export class Canvas {
             this.renderElement(element)
         })
 
-        if (this.game) {
-            this.renderOrbs(this.game.orbService.xpOrbs)
-            
-            this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y <= this.player.y))
-            this.renderPlayer(this.player)
-            this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y > this.player.y))
+        this.renderOrbs(this.game.orbService.xpOrbs)
+        
+        this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y <= this.player.y))
+        this.renderPlayer(this.player)
+        this.renderEnemies(this.enemyService.enemies.filter(enemy => enemy.y > this.player.y))
 
-            this.renderSkills(this.game.skillService.activeSkills)
-            this.renderStatus()
+        this.renderSkills(this.game.skillService.activeSkills)
+        this.renderStatus()
 
-            this.renderEnemiesHEalth()
-            
-            this.renderBenchmark()
-        }
+        this.renderEnemiesHEalth()
+        
+        this.renderBenchmark()
+
 
         this.scenario.layers.aboveThePlayers.forEach(element => {
             this.renderElement(element)
@@ -166,14 +169,13 @@ export class Canvas {
             font: "20px Arial",
             context: this.context,
             camera: this.camera,
-            curentValue: `Level: ${ this.player.status.level}`,
+            value: `Level: ${ this.player.status.level}`,
             posX: 20,
             posY: 30
         })
 
         drawAnimatedBar({
             context: this.context,
-            camera: this.camera,
             curentValue: currentHealth,
             maxValue: maxHealth,
             minColor: "#FF5555",
@@ -186,7 +188,6 @@ export class Canvas {
 
         drawAnimatedBar({
             context: this.context,
-            camera: this.camera,
             curentValue: currentXP,
             maxValue: nextLevelXp,
             minColor: "#5555FF",
@@ -205,7 +206,6 @@ export class Canvas {
 
             drawAnimatedBar({
                 context: this.context,
-                camera: this.camera,
                 curentValue: enemy.currentHealth,
                 maxValue: enemy.maxHealth,
                 minColor: "#5555FF",
@@ -224,11 +224,24 @@ export class Canvas {
                 font: "30px Arial",
                 context: this.context,
                 camera: this.camera,
-                curentValue: this.game.fps.toString(),
+                value: this.game.fps.toString(),
                 posX: this.camera.width - 50,
                 posY: 40
             })
         }
+    }
+
+    renderDeathNotification() {
+
+        this.game.status = GameStatus.stopped
+
+        drawDeathNotification({
+            context: this.context,
+            height: 300,
+            width: 500,
+            posY: 200,
+            posX: (SCREEN_WIDTH / 2) - 250
+        })
     }
 
     public static getInstance(): Canvas {
