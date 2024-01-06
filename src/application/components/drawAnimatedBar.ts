@@ -1,4 +1,4 @@
-import { Camera } from "../models/Camera";
+import { Camera } from "../entities/Camera";
 
 interface IAnimatedBar {
     camera: Camera

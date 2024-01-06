@@ -1,7 +1,7 @@
 import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../../constants";
-import { Enemy } from "../models/Enemy"
-import { Game } from "../models/Game";
-import { Player } from "../models/Player";
+import { Enemy } from "../entities/Enemy"
+import { Game } from "../entities/Game";
+import { Player } from "../entities/Player";
 import { Element2D, isThereIntersection } from "../utils/utils";
 import { EnemyFactory } from "./EnemyFactory";
 import { OrbService } from "./OrbService";

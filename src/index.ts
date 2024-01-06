@@ -1,4 +1,4 @@
-import { Game } from "./application/models/Game"
+import { Game } from "./application/entities/Game"
 
 
 Game.getInstance()

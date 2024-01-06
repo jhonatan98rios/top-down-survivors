@@ -1,4 +1,4 @@
-import { DIRECTION, Enemy } from "../models/Enemy"
+import { DIRECTION, Enemy } from "../entities/Enemy"
 
 type RandomPos = {
     x: number,

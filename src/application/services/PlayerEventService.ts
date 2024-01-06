@@ -1,5 +1,5 @@
-import { EventHandler } from "../models/EventHandler"
-import { Player } from "../models/Player"
+import { EventHandler } from "../entities/EventHandler"
+import { Player } from "../entities/Player"
 
 export class PlayerEventService {
 

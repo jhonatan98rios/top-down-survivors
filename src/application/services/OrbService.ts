@@ -1,5 +1,5 @@
-import { Player } from "../models/Player";
-import { XPOrb } from "../models/XPOrb";
+import { Player } from "../entities/Player";
+import { XPOrb } from "../entities/XPOrb";
 
 export class OrbService {
 

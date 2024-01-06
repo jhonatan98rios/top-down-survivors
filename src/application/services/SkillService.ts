@@ -1,7 +1,7 @@
-import { Enemy } from "../models/Enemy";
-import { Player } from "../models/Player";
-import { AbstractSkill } from "../models/skills/AbstractSkill";
-import { SoundAttackLevel_1 } from "../models/skills/SoundAttackLevel_1";
+import { Enemy } from "../entities/Enemy";
+import { Player } from "../entities/Player";
+import { AbstractSkill } from "../entities/skills/AbstractSkill";
+import { SoundAttackLevel_1 } from "../entities/skills/SoundAttackLevel_1";
 import { EnemyService } from "./EnemyService";
 
 export class SkillService {
