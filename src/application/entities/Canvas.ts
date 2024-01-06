@@ -59,6 +59,8 @@ export class Canvas {
 
             this.renderSkills(this.game.skillService.activeSkills)
             this.renderStatus()
+
+            this.renderEnemiesHEalth()
             
             this.renderBenchmark()
         }
@@ -178,8 +180,8 @@ export class Canvas {
             maxColor: "#55FF55",
             height: 20,
             width: 200,
-            posX: 20,
-            posY: 40
+            posX: this.camera.x + 20,
+            posY: this.camera.y + 40
         })
 
         drawAnimatedBar({
@@ -191,8 +193,28 @@ export class Canvas {
             maxColor: "#AAAAFF",
             height: 20,
             width: 200,
-            posX: 20,
-            posY: 70
+            posX: this.camera.x + 20,
+            posY: this.camera.y + 70
+        })
+    }
+
+    renderEnemiesHEalth() {
+        this.enemyService.enemies.forEach(enemy => {
+
+            if (enemy.currentHealth === enemy.maxHealth) return
+
+            drawAnimatedBar({
+                context: this.context,
+                camera: this.camera,
+                curentValue: enemy.currentHealth,
+                maxValue: enemy.maxHealth,
+                minColor: "#5555FF",
+                maxColor: "#AAAAFF",
+                height: 4,
+                width: 30,
+                posX: enemy.x + (enemy.width / 2) - 15,
+                posY: enemy.y - 10 
+            })
         })
     }
 

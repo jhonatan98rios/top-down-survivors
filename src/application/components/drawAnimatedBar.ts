@@ -23,14 +23,14 @@ export function drawAnimatedBar({ context, curentValue, maxValue, camera, minCol
 
 
     context.strokeRect(
-        Math.floor(camera.x + posX), 
-        Math.floor(camera.y + posY), 
+        Math.floor(posX), 
+        Math.floor(posY), 
         width+2, height
     )
 
     context.fillRect(
-        Math.floor(camera.x + posX+1), 
-        Math.floor(camera.y + posY+1), 
+        Math.floor(posX + 1), 
+        Math.floor(posY + 1), 
         Math.floor((curentValue / maxValue) * width), 
         height-2
     );
