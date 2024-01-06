@@ -5,6 +5,7 @@ import { Game } from "./Game";
 import { PlayerStatus } from "./PlayerStatus";
 import { Scenario } from "./Scenario";
 import { XPOrb } from "./XPOrb";
+import { CachedImages } from "./CachedImages";
 
 export enum DIRECTION {
     LEFT = 0,
@@ -28,8 +29,10 @@ export class Player {
     direction: DIRECTION
     countAnim: number
     scenario: Scenario
+    images: CachedImages
     game?: Game
     spritesheet: HTMLImageElement
+
 
     constructor() {
         this.status = PlayerStatus.getInstance()
@@ -43,8 +46,7 @@ export class Player {
         this.direction = DIRECTION.RIGHT
         this.scenario = Scenario.getInstance()
         this.countAnim = 0
-        this.spritesheet = new Image()
-        this.spritesheet.src = "img/players/standard/spritesheet.png"
+        this.spritesheet = CachedImages.getInstance().getPlayer()
 
         this.spritesheet.addEventListener("load", () => {
             requestAnimationFrame(this.game?.loop.bind(this.game)!);

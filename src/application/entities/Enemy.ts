@@ -16,7 +16,7 @@ interface IEnemy {
     srcX: number
     srcY: number
     direction: DIRECTION
-    spritesheetSrc: string
+    spritesheet: HTMLImageElement
     health: number
     damage: number
 }
@@ -39,7 +39,7 @@ export class Enemy {
     scenario: Scenario
     spritesheet: HTMLImageElement
 
-    constructor({ health, damage, x, y, width, height, speed, srcX, srcY, direction, spritesheetSrc }: IEnemy) {
+    constructor({ health, damage, x, y, width, height, speed, srcX, srcY, direction, spritesheet }: IEnemy) {
         this.id = generateUUID()
         this.health = health
         this.damage = damage
@@ -52,9 +52,7 @@ export class Enemy {
         this.srcY = srcY
         this.direction = direction
         this.countAnim = 0
-
-        this.spritesheet = new Image()
-        this.spritesheet.src = spritesheetSrc
+        this.spritesheet = spritesheet
     }
 
     move(player: Player, isVisible: boolean) {

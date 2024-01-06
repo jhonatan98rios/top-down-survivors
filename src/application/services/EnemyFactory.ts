@@ -1,3 +1,4 @@
+import { CachedImages } from "../entities/CachedImages"
 import { DIRECTION, Enemy } from "../entities/Enemy"
 
 type RandomPos = {
@@ -30,7 +31,7 @@ export class EnemyFactory {
             srcX: 0,
             srcY: 0,
             direction: DIRECTION.LEFT,
-            spritesheetSrc: "img/enemies/spirit.png"
+            spritesheet: CachedImages.getInstance().getSpirit()
         })
     }
 
@@ -46,7 +47,7 @@ export class EnemyFactory {
             srcX: 0,
             srcY: 0,
             direction: DIRECTION.LEFT,
-            spritesheetSrc: "img/enemies/cyclope.png"
+            spritesheet: CachedImages.getInstance().getCyclop()
         })
     }
 
@@ -62,7 +63,7 @@ export class EnemyFactory {
             srcX: 0,
             srcY: 0,
             direction: DIRECTION.LEFT,
-            spritesheetSrc: "img/enemies/dragon.png"
+            spritesheet: CachedImages.getInstance().getDragon()
         })
     } 
 
@@ -78,7 +79,7 @@ export class EnemyFactory {
             srcX: 0,
             srcY: 0,
             direction: DIRECTION.LEFT,
-            spritesheetSrc: "img/enemies/crawler.png"
+            spritesheet: CachedImages.getInstance().getCrawler()
         })
     } 
 }
