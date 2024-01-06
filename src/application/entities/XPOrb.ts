@@ -9,13 +9,13 @@ export class XPOrb {
     value: number
     color: string
 
-    constructor({ x, y }: Partial<XPOrb>) {
+    constructor({ x, y, value=1 }: Partial<XPOrb>) {
         this.id = generateUUID()
         this.x = x
         this.y = y
         this.width = 5
         this.height = 10
-        this.value = 1
+        this.value = value
         this.color = "#55AAFF"
 
         this.animate(true)

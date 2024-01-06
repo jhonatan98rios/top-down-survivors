@@ -21,7 +21,7 @@ export class EnemyFactory {
 
     static createSpirit(randomPos: RandomPos) {
         return new Enemy({
-            health: 1,
+            maxHealth: 1,
             damage: 1,
             x: randomPos.x, 
             y: randomPos.y,
@@ -37,7 +37,7 @@ export class EnemyFactory {
 
     static createCyclops(randomPos: RandomPos) {
         return new Enemy({
-            health: 1,
+            maxHealth: 3,
             damage: 1,
             x: randomPos.x, 
             y: randomPos.y,
@@ -53,7 +53,7 @@ export class EnemyFactory {
 
     static createDragon(randomPos: RandomPos) {
         return new Enemy({
-            health: 1,
+            maxHealth: 5,
             damage: 1,
             x: randomPos.x, 
             y: randomPos.y,
@@ -69,7 +69,7 @@ export class EnemyFactory {
 
     static createCrawler(randomPos: RandomPos) {
         return new Enemy({
-            health: 1,
+            maxHealth: 5,
             damage: 1,
             x: randomPos.x, 
             y: randomPos.y,

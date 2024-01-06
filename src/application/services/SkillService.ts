@@ -74,10 +74,10 @@ export class SkillService {
         }
     }
 
-    collision(skillId: string, enemy: Enemy) {
+    collision(skill: AbstractSkill, enemy: Enemy) {
         //console.log(skillId, enemy.id)
-        this.remove(skillId)
-        this.enemyService.remove(enemy)
+        this.remove(skill.id)
+        this.enemyService.applyDamage(enemy, skill.damage)
     }
 
     remove(id: string) {

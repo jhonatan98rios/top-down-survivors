@@ -8,6 +8,7 @@ export enum DIRECTION {
 }
 
 interface IEnemy {
+    maxHealth: number
     x: number
     y: number
     width: number
@@ -17,7 +18,6 @@ interface IEnemy {
     srcY: number
     direction: DIRECTION
     spritesheet: HTMLImageElement
-    health: number
     damage: number
 }
 
@@ -25,7 +25,8 @@ type Direction = { mvLeft?: boolean, mvUp?: boolean, mvRight?: boolean, mvDown?:
 
 export class Enemy {
     id: UUID
-    health: number
+    maxHealth: number
+    currentHealth: number
     damage: number
     x: number
     y: number
@@ -39,9 +40,10 @@ export class Enemy {
     scenario: Scenario
     spritesheet: HTMLImageElement
 
-    constructor({ health, damage, x, y, width, height, speed, srcX, srcY, direction, spritesheet }: IEnemy) {
+    constructor({ maxHealth, damage, x, y, width, height, speed, srcX, srcY, direction, spritesheet }: IEnemy) {
         this.id = generateUUID()
-        this.health = health
+        this.maxHealth = maxHealth
+        this.currentHealth = maxHealth
         this.damage = damage
         this.x = x
         this.y = y

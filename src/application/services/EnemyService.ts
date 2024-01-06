@@ -61,10 +61,19 @@ export class EnemyService {
         });
     }
 
+    applyDamage(enemy: Enemy, damage: number) {
+        enemy.currentHealth -= damage
+
+        if (enemy.currentHealth <= 0) {
+            this.remove(enemy)
+        }
+    }
+
     remove(enemy: Enemy) {
         const { id, x, y, height, width } = enemy
         this.enemies = this.enemies.filter(e => e.id != id)
         this.orbService.spawnXpOrb({
+            value: enemy.maxHealth,
             x: x + (width / 2), 
             y: y + (height / 2)
         })

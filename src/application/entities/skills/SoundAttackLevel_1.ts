@@ -27,6 +27,7 @@ export class SoundAttackLevel_1 implements AbstractSkill {
     countAnim: number
     spritesheet: HTMLImageElement
     speed: number
+    damage: number
     
     constructor({ initialX, initialY, targetX, targetY }: ISoundAttackLevel_1) {
 
@@ -43,6 +44,7 @@ export class SoundAttackLevel_1 implements AbstractSkill {
         this.width = 26
         this.height = 26
         this.speed = 5
+        this.damage = 1
         
         this.countAnim = 0
         this.spritesheet = CachedImages.getInstance().getSoundAttackLevel_1()
@@ -66,13 +68,12 @@ export class SoundAttackLevel_1 implements AbstractSkill {
         throw new Error("Method not implemented.");
     }
 
-    checkCollision(enemies: Enemy[], callback: (skillId: string, enemy: Enemy) => void) {
-
+    checkCollision(enemies: Enemy[], callback: (skill: AbstractSkill, enemy: Enemy) => void) {
         for (let index = 0; index < enemies.length; index++) {
             let enemy = enemies[index]
 
             if ((this.x <= enemy.x + enemy.width) && (this.x + this.width >= enemy.x) && (this.y <= enemy.y + enemy.height && this.y + this.height >= enemy.y)) {
-                return callback(this.id, enemy)
+                return callback(this, enemy) //SkillService.collision.bind(this)
             }
         }
     }

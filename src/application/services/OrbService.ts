@@ -13,9 +13,9 @@ export class OrbService {
         this.xpOrbs = []
     }
 
-    spawnXpOrb({ x, y }: Partial<XPOrb>) {
+    spawnXpOrb({ x, y, value }: Partial<XPOrb>) {
         this.xpOrbs.push(
-            new XPOrb({ x, y })
+            new XPOrb({ x, y, value })
         )       
         this.sortOrbs()        
     }
