@@ -125,7 +125,7 @@ export class Player {
             let enemy = enemies[index]
 
             if (isThereIntersection(this, enemy)) {
-                //return this.status.takeDamage(enemy.damage)
+                return this.status.takeDamage(enemy.damage)
             }
         }
     }
@@ -135,7 +135,7 @@ export class Player {
             let xpOrb = xpOrbs[index]
 
             if (isThereIntersection(this, xpOrb)) {
-                this.status.takeXp(xpOrb.value)
+                this.status.takeXp(xpOrb.value, this)
                 this.game.orbService.remove(xpOrb.id)
             }
         }

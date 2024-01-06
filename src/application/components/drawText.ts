@@ -4,15 +4,16 @@ interface IdrawText{
     camera: Camera
     context: CanvasRenderingContext2D,
     curentValue: string,
+    font: string,
     posX: number,
     posY: number,
 }
 
-export function drawText({ context, curentValue, camera, posX, posY }: IdrawText) {
+export function drawText({ context, curentValue, font, camera, posX, posY }: IdrawText) {
 
     context.beginPath();
 
-    context.font = "30px Arial";
+    context.font = font;
     context.fillText(
         curentValue.toString(), 
         Math.floor(camera.x + posX), 

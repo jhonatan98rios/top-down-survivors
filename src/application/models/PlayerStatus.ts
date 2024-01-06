@@ -1,3 +1,4 @@
+import { Player } from "./Player";
 
 export class PlayerStatus {
 
@@ -11,8 +12,8 @@ export class PlayerStatus {
 
     constructor () {
         this.level = 1
-        this.maxHealth = 25
-        this.currentHealth = 25
+        this.maxHealth = 50
+        this.currentHealth = 50
         this.vulnerable = true
         this.currentXP = 0
         this.nextLevelXp = 5
@@ -41,7 +42,7 @@ export class PlayerStatus {
         }, 1000)
     }
 
-    takeXp(xp: number) {
+    takeXp(xp: number, player: Player) {
         if (this.currentXP + xp >= this.nextLevelXp) {
             return this.upgrade()
         } 
@@ -56,13 +57,5 @@ export class PlayerStatus {
         
         this.maxHealth += 1
         this.currentHealth += 1
-
-        console.log({
-            level: this.level,
-            nextLevelXp: this.nextLevelXp,
-            currentXP: this.currentXP,
-            maxHealth: this.maxHealth,
-            currentHealth: this.currentHealth,
-        })
     }
 }

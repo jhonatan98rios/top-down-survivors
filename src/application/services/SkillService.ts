@@ -54,7 +54,7 @@ export class SkillService {
             this.activeSkills.push(sound_attack_level_1)
         }
 
-        //setTimeout(this.spawn.bind(this), 500)
+        setTimeout(this.spawn.bind(this), 500)
     }
 
     move() {

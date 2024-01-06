@@ -3,15 +3,12 @@
     "short_name": "MAD",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#fff",
+    "background_color": "#000",
     "description": "Metal Against Demons Game",
     "cache": {
         "name": "MinhaPWA-v1",
-        "fallback": "/offline.html",
         "assets": [
-          "/img/stages/pattern.png",
-          "/path/para/imagem2.jpg",
-          "/path/para/arquivo.js"
+          "/img/stages/pattern.png"
         ]
     }
   }

@@ -160,7 +160,14 @@ export class Canvas {
     private renderStatus() {
         const { currentHealth, maxHealth, currentXP, nextLevelXp } =  this.player.status
 
-        
+        drawText({
+            font: "20px Arial",
+            context: this.context,
+            camera: this.camera,
+            curentValue: `Level: ${ this.player.status.level}`,
+            posX: 20,
+            posY: 30
+        })
 
         drawAnimatedBar({
             context: this.context,
@@ -172,7 +179,7 @@ export class Canvas {
             height: 20,
             width: 200,
             posX: 20,
-            posY: 20
+            posY: 40
         })
 
         drawAnimatedBar({
@@ -185,13 +192,14 @@ export class Canvas {
             height: 20,
             width: 200,
             posX: 20,
-            posY: 50
+            posY: 70
         })
     }
 
     renderBenchmark() {
         if (this.game) {
             drawText({
+                font: "30px Arial",
                 context: this.context,
                 camera: this.camera,
                 curentValue: this.game.fps.toString(),
